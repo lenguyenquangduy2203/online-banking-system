@@ -1,0 +1,37 @@
+# Ignore node_modules in the frontend
+frontend/node_modules/
+
+# Ignore .env files
+.env
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS generated files by Finder
+Icon?
+._*
+
+# macOS specific metadata files
+.Spotlight-V100
+.Trashes
