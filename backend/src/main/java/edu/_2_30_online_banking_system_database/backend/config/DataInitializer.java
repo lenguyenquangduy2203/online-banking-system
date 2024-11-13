@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import edu._2_30_online_banking_system_database.backend.models.AccountType;
 import edu._2_30_online_banking_system_database.backend.models.Customer;
@@ -19,10 +20,13 @@ import edu._2_30_online_banking_system_database.backend.repositories.AccountType
 import edu._2_30_online_banking_system_database.backend.repositories.CustomerRepository;
 import edu._2_30_online_banking_system_database.backend.repositories.RoleRepository;
 import edu._2_30_online_banking_system_database.backend.repositories.TransactionTypeRepository;
+import lombok.AllArgsConstructor;
 
 @Configuration
+@AllArgsConstructor
 public class DataInitializer {
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
+    private PasswordEncoder passwordEncoder;
     
     @Bean
     CommandLineRunner initData(
@@ -67,7 +71,7 @@ public class DataInitializer {
             Customer admin = Customer.builder()
                 .name("Admin")
                 .email("fmail@fakemail.com")
-                .password("123456789")
+                .password(passwordEncoder.encode("123456789"))
                 .regisDate(new Date(System.currentTimeMillis()))
                 .isActive(true)
                 .role(adminRole)
