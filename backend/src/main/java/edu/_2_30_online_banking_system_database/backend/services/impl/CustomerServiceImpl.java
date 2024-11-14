@@ -2,6 +2,8 @@ package edu._2_30_online_banking_system_database.backend.services.impl;
 
 import java.sql.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     private AuthenticationManager authenticationManager;
     private CustomerRepository customerRepository;
     private RoleRepository roleRepository;
@@ -50,6 +53,8 @@ public class CustomerServiceImpl implements CustomerService {
             .role(role)
             .build();
         customerRepository.save(user);
+        String msg = "Encoder used in service: "+passwordEncoder.getClass().getSimpleName();
+        logger.info(msg);
         return "User registered successfully.";
     }
 

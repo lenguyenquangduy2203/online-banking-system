@@ -1,5 +1,7 @@
 package edu._2_30_online_banking_system_database.backend.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -20,11 +22,12 @@ import lombok.AllArgsConstructor;
 @EnableMethodSecurity
 @AllArgsConstructor
 public class SecurityConfig {
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private UserDetailsService userDetailsService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
@@ -42,19 +45,20 @@ public class SecurityConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
+        String msg = "Encoder used in provider: "+passwordEncoder().getClass().getSimpleName(); 
+        logger.info(msg);
         return provider;
     }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(management -> management
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider());
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider());
         return http.build();
     }
     //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()

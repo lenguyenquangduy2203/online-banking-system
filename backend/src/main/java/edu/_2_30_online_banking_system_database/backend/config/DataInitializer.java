@@ -42,11 +42,11 @@ public class DataInitializer {
             
             AccountType savingAccountType = new AccountType();
             savingAccountType.setName(EAccountType.SAVING);
-            savingAccountType = accountTypeRepository.save(transactionAccountType);
+            savingAccountType = accountTypeRepository.save(savingAccountType);
             
             AccountType emergencyAccountType = new AccountType();
             emergencyAccountType.setName(EAccountType.EMERGENCY);
-            emergencyAccountType = accountTypeRepository.save(transactionAccountType);
+            emergencyAccountType = accountTypeRepository.save(emergencyAccountType);
 
             Role userRole = new Role();
             userRole.setName(ERole.ROLE_USER);
@@ -54,7 +54,7 @@ public class DataInitializer {
 
             Role adminRole = new Role();
             adminRole.setName(ERole.ROLE_ADMIN);
-            adminRole = roleRepository.save(userRole);
+            adminRole = roleRepository.save(adminRole);
 
             TransactionType depositTransactionType = new TransactionType();
             depositTransactionType.setName(ETransactionType.DEPOSIT);
@@ -62,11 +62,11 @@ public class DataInitializer {
 
             TransactionType withdrawalTransactionType = new TransactionType();
             withdrawalTransactionType.setName(ETransactionType.WITHDRAWAL);
-            withdrawalTransactionType = transactionTypeRepository.save(depositTransactionType);
+            withdrawalTransactionType = transactionTypeRepository.save(withdrawalTransactionType);
 
             TransactionType transferTransactionType = new TransactionType();
             transferTransactionType.setName(ETransactionType.TRANSFER);
-            transferTransactionType = transactionTypeRepository.save(depositTransactionType);
+            transferTransactionType = transactionTypeRepository.save(transferTransactionType);
 
             Customer admin = Customer.builder()
                 .name("Admin")
