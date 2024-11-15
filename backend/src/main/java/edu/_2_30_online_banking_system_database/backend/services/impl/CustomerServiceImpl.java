@@ -1,6 +1,7 @@
 package edu._2_30_online_banking_system_database.backend.services.impl;
 
 import java.sql.Date;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,12 +9,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu._2_30_online_banking_system_database.backend.models.Customer;
 import edu._2_30_online_banking_system_database.backend.models.ERole;
 import edu._2_30_online_banking_system_database.backend.models.Role;
+import edu._2_30_online_banking_system_database.backend.payload.CustomerDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.LoginDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.SignUpDto;
 import edu._2_30_online_banking_system_database.backend.repositories.CustomerRepository;
@@ -31,11 +34,23 @@ public class CustomerServiceImpl implements CustomerService {
     private PasswordEncoder passwordEncoder;
     
     @Override
-    public void signIn(LoginDto loginDto) {
+    public Optional<CustomerDto> signIn(LoginDto loginDto) {
+        String email = loginDto.email();
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-            loginDto.email(), loginDto.password()
+            email, loginDto.password()
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        Customer foundUser = customerRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        CustomerDto user = new CustomerDto(
+            foundUser.getId(),
+            foundUser.getName(),
+            foundUser.getEmail(),
+            foundUser.getRegisDate(),
+            foundUser.getIsActive(),
+            foundUser.getRole().getName().toString()
+        );
+        return Optional.of(user);
     }
 
     @Override
