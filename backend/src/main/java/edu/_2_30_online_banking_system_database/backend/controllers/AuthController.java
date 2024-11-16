@@ -1,7 +1,6 @@
 package edu._2_30_online_banking_system_database.backend.controllers;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu._2_30_online_banking_system_database.backend.payload.CustomerDto;
+import edu._2_30_online_banking_system_database.backend.config.ApiProperties;
+import edu._2_30_online_banking_system_database.backend.payload.ApiKeyDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.LoginDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.SignUpDto;
 import edu._2_30_online_banking_system_database.backend.payload.responses.ApiResponse;
@@ -22,29 +22,18 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthController {
     private CustomerService customerService;
+    private ApiProperties apiProperties;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<ApiResponse<CustomerDto>> authenticateCustomer(@RequestBody LoginDto loginDto) {
-        Optional<CustomerDto> user = customerService.signIn(loginDto);
-        if (user.isPresent()) {
-            return new ResponseEntity<>(
-                new ApiResponse<>(
-                    "success",
-                    "user login successfully",
-                    LocalDateTime.now(),
-                    user.get()
-                ),
-                HttpStatus.OK
-            );  
-        }
+    public ResponseEntity<ApiResponse<ApiKeyDto>> authenticateCustomer(@RequestBody LoginDto loginDto) {
+        customerService.signIn(loginDto);
         return new ResponseEntity<>(
             new ApiResponse<>(
-                "fail",
-                "user is not signed up",
-                LocalDateTime.now(),
-                null
-            ),
-            HttpStatus.NOT_FOUND
+                "success", 
+                "user authenticated successfully", 
+                LocalDateTime.now(), 
+                new ApiKeyDto(apiProperties.getHeader(), apiProperties.getToken())),
+            HttpStatus.OK
         );
     }
 

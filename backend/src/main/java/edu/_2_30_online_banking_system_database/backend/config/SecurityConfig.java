@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +25,7 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private UserDetailsService userDetailsService;
+    private ApiProperties apiProperties;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -58,7 +60,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider());
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(
+                    new AuthenticationFilter(apiProperties), 
+                    UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
