@@ -8,12 +8,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import edu._2_30_online_banking_system_database.backend.config.ApiProperties;
 import edu._2_30_online_banking_system_database.backend.models.Customer;
 import edu._2_30_online_banking_system_database.backend.models.ERole;
 import edu._2_30_online_banking_system_database.backend.models.Role;
+import edu._2_30_online_banking_system_database.backend.payload.ApiKeyDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.LoginDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.SignUpDto;
 import edu._2_30_online_banking_system_database.backend.repositories.CustomerRepository;
@@ -29,14 +32,21 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private ApiProperties apiProperties;
     
     @Override
-    public void signIn(LoginDto loginDto) {
+    public ApiKeyDto signIn(LoginDto loginDto) {
         String email = loginDto.email();
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
             email, loginDto.password()
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        Customer user = customerRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        if (user.getRole().getName().equals(ERole.ROLE_ADMIN)) {
+            return new ApiKeyDto(apiProperties.getAdminHeader(), apiProperties.getAdminToken());
+        }
+        return new ApiKeyDto(apiProperties.getUserHeader(), apiProperties.getUserToken());
     }
 
     @Override

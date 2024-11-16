@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu._2_30_online_banking_system_database.backend.config.ApiProperties;
 import edu._2_30_online_banking_system_database.backend.payload.ApiKeyDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.LoginDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.SignUpDto;
@@ -22,17 +21,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthController {
     private CustomerService customerService;
-    private ApiProperties apiProperties;
 
     @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<ApiKeyDto>> authenticateCustomer(@RequestBody LoginDto loginDto) {
-        customerService.signIn(loginDto);
+        ApiKeyDto apiKey = customerService.signIn(loginDto);
         return new ResponseEntity<>(
             new ApiResponse<>(
                 "success", 
                 "user authenticated successfully", 
                 LocalDateTime.now(), 
-                new ApiKeyDto(apiProperties.getHeader(), apiProperties.getToken())),
+                apiKey),
             HttpStatus.OK
         );
     }

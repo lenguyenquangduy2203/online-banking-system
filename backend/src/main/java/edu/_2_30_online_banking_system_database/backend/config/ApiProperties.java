@@ -11,6 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApiProperties {
-    private String header;
-    private String token;
+    private String userHeader;
+    private String userToken;
+    private String adminHeader;
+    private String adminToken;
 }

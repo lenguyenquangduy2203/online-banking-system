@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
-    @GetMapping("")
-    public ResponseEntity<String> test() {
-        return new ResponseEntity<>("Authorization is working properly!", HttpStatus.OK);
+    @GetMapping("/user")
+    public ResponseEntity<String> testUser() {
+        return new ResponseEntity<>("User authorization is working properly!", HttpStatus.OK);
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<String> testAdmin() {
+        return new ResponseEntity<>("Admin authorization is working properly!", HttpStatus.OK);
     }
 }
