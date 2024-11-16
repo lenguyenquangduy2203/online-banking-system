@@ -27,6 +27,7 @@ import lombok.AllArgsConstructor;
 public class DataInitializer {
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
     private PasswordEncoder passwordEncoder;
+    private AdminProperties adminProperties;
     
     @Bean
     CommandLineRunner initData(
@@ -69,9 +70,9 @@ public class DataInitializer {
             transferTransactionType = transactionTypeRepository.save(transferTransactionType);
 
             Customer admin = Customer.builder()
-                .name("Admin")
-                .email("fmail@fakemail.com")
-                .password(passwordEncoder.encode("123456789"))
+                .name(adminProperties.getName())
+                .email(adminProperties.getEmail())
+                .password(passwordEncoder.encode(adminProperties.getPassword()))
                 .regisDate(new Date(System.currentTimeMillis()))
                 .isActive(true)
                 .role(adminRole)
