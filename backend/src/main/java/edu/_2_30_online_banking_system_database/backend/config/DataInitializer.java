@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import edu._2_30_online_banking_system_database.backend.models.AccountType;
 import edu._2_30_online_banking_system_database.backend.models.Customer;
@@ -19,10 +20,14 @@ import edu._2_30_online_banking_system_database.backend.repositories.AccountType
 import edu._2_30_online_banking_system_database.backend.repositories.CustomerRepository;
 import edu._2_30_online_banking_system_database.backend.repositories.RoleRepository;
 import edu._2_30_online_banking_system_database.backend.repositories.TransactionTypeRepository;
+import lombok.AllArgsConstructor;
 
 @Configuration
+@AllArgsConstructor
 public class DataInitializer {
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
+    private PasswordEncoder passwordEncoder;
+    private AdminProperties adminProperties;
     
     @Bean
     CommandLineRunner initData(
@@ -38,11 +43,11 @@ public class DataInitializer {
             
             AccountType savingAccountType = new AccountType();
             savingAccountType.setName(EAccountType.SAVING);
-            savingAccountType = accountTypeRepository.save(transactionAccountType);
+            savingAccountType = accountTypeRepository.save(savingAccountType);
             
             AccountType emergencyAccountType = new AccountType();
             emergencyAccountType.setName(EAccountType.EMERGENCY);
-            emergencyAccountType = accountTypeRepository.save(transactionAccountType);
+            emergencyAccountType = accountTypeRepository.save(emergencyAccountType);
 
             Role userRole = new Role();
             userRole.setName(ERole.ROLE_USER);
@@ -50,7 +55,7 @@ public class DataInitializer {
 
             Role adminRole = new Role();
             adminRole.setName(ERole.ROLE_ADMIN);
-            adminRole = roleRepository.save(userRole);
+            adminRole = roleRepository.save(adminRole);
 
             TransactionType depositTransactionType = new TransactionType();
             depositTransactionType.setName(ETransactionType.DEPOSIT);
@@ -58,16 +63,16 @@ public class DataInitializer {
 
             TransactionType withdrawalTransactionType = new TransactionType();
             withdrawalTransactionType.setName(ETransactionType.WITHDRAWAL);
-            withdrawalTransactionType = transactionTypeRepository.save(depositTransactionType);
+            withdrawalTransactionType = transactionTypeRepository.save(withdrawalTransactionType);
 
             TransactionType transferTransactionType = new TransactionType();
             transferTransactionType.setName(ETransactionType.TRANSFER);
-            transferTransactionType = transactionTypeRepository.save(depositTransactionType);
+            transferTransactionType = transactionTypeRepository.save(transferTransactionType);
 
             Customer admin = Customer.builder()
-                .name("Admin")
-                .email("fmail@fakemail.com")
-                .password("123456789")
+                .name(adminProperties.getName())
+                .email(adminProperties.getEmail())
+                .password(passwordEncoder.encode(adminProperties.getPassword()))
                 .regisDate(new Date(System.currentTimeMillis()))
                 .isActive(true)
                 .role(adminRole)
