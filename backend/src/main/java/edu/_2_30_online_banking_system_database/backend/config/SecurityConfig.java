@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 @EnableMethodSecurity
 @AllArgsConstructor
 public class SecurityConfig {
-    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private UserDetailsService userDetailsService;
     private ApiProperties apiProperties;
 
@@ -47,8 +46,6 @@ public class SecurityConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
-        String msg = "Encoder used in provider: "+passwordEncoder().getClass().getSimpleName(); 
-        logger.info(msg);
         return provider;
     }
 

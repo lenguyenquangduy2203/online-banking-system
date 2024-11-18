@@ -27,7 +27,6 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     private AuthenticationManager authenticationManager;
     private CustomerRepository customerRepository;
     private RoleRepository roleRepository;
@@ -64,8 +63,6 @@ public class CustomerServiceImpl implements CustomerService {
             .role(role)
             .build();
         customerRepository.save(user);
-        String msg = "Encoder used in service: "+passwordEncoder.getClass().getSimpleName();
-        logger.info(msg);
         return "User registered successfully.";
     }
 
