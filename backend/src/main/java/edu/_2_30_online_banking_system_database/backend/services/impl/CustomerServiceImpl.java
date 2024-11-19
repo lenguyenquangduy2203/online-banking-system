@@ -2,8 +2,6 @@ package edu._2_30_online_banking_system_database.backend.services.impl;
 
 import java.sql.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,5 @@
 package edu._2_30_online_banking_system_database.backend.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,7 +52,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/test/user").hasRole("USER")
+                        .requestMatchers("/api/test/user", "/api/user/**").hasRole("USER")
                         .requestMatchers("/api/test/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(management -> management
@@ -65,5 +63,4 @@ public class SecurityConfig {
                     UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-    //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
 }
