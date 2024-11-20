@@ -64,4 +64,10 @@ public class CustomerServiceImpl implements CustomerService {
         return "User registered successfully.";
     }
 
+    @Override
+    public Customer getUserByEmail(String email) {
+        return customerRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+    }
+
 }
