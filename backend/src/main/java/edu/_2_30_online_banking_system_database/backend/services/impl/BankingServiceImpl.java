@@ -52,7 +52,7 @@ public class BankingServiceImpl implements BankingService {
         } else {
             throw new InvalidPinException("Pin must contains 4 to 6 digits.");
         }
-        AccountType accountType = accountTypeRepository.findByName(type.toString())
+        AccountType accountType = accountTypeRepository.findByName(type)
             .orElseThrow(() -> new InvalidAccountTypeException("Account type is not exist."));
         Customer user = customerRepository.findById(userId)
             .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with id: " + userId));
