@@ -28,7 +28,10 @@ public class Transaction {
     private Date createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Customer customer;
+    private Account fromAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Account toAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TransactionType type;
