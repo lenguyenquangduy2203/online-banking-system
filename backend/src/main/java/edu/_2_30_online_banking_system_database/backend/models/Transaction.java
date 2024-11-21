@@ -1,6 +1,6 @@
 package edu._2_30_online_banking_system_database.backend.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,15 +21,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double amount;
-    private Date createdDate;
+    private Timestamp createdDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Customer customer;
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    private Account fromAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    private Account toAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TransactionType type;
