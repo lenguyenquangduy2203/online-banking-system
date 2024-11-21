@@ -144,7 +144,7 @@ Admin authorization is working properly!
 
 ### Overview
 
-Users are provided with functions to open accounts and making transactions using their accounts
+Users are provided with functions to open accounts, making transactions using their accounts, and manage their transactions.
 
 ### Endpoints
 
@@ -172,11 +172,16 @@ Users are provided with functions to open accounts and making transactions using
 
 ```json
 {
-  "id": 1,
-  "balance": 0.0,
-  "createdDate": "2024-11-10",
-  "customerId": 2,
-  "type": "SAVING"
+    "status": "created",
+    "message": "your account has been created",
+    "timestamp": "2024-11-10T9:13:30.23",
+    "data": {
+      "id": 1,
+      "balance": 0.0,
+      "createdDate": "2024-11-10",
+      "customerId": 2,
+      "type": "SAVING"
+    }
 }
 ```
 
@@ -206,12 +211,70 @@ Users are provided with functions to open accounts and making transactions using
 
 ```json
 {
-  "id": 1,
-  "amount": 100.0,
-  "createdDate": "2024-11-10T13:23:16.220",
-  "fromAccountId": null,
-  "toAccountId": 1,
-  "type": "DEPOSIT"
+    "status": "success",
+    "message": "your transaction is made",
+    "timestamp": "2024-11-10T9:13:23.220",
+    "data": {
+      "id": 1,
+      "amount": 100.0,
+      "createdDate": "2024-11-10T13:23:16.220",
+      "fromAccountId": null,
+      "toAccountId": 1,
+      "type": "DEPOSIT"
+    }
+}
+```
+
+#### Manage Transactions
+
+**GET** `/api/users/{id}/transactions`
+
+- **Description:** Get all transaction made by user in descendant order of created date.
+
+- **Query Parameters:**
+
+  - `page` (optional, default = 0, `int`): The index of the page of transactions.
+  - `size` (optional, default = 10, `int`): The maximum size of each page.
+
+- **Example Request:**
+
+```http
+GET /api/users/2/transactions?page=0&size=3
+```
+
+- **Response:**
+
+```json
+{
+  "status": "success",
+  "message": "page 0 of size 3 is retrieved",
+  "timestamp": "2024-11-18T14:5:13.130",
+  "data": [
+    {
+      "id": 5,
+      "amount": 111.0,
+      "createdDate": "2024-11-10T14:27:35.270",
+      "fromAccountId": null,
+      "toAccountId": 1,
+      "type": "DEPOSIT"
+    }, 
+    {
+      "id": 4,
+      "amount": 11.0,
+      "createdDate": "2024-11-10T14:13:6.240",
+      "fromAccountId": 1,
+      "toAccountId": null,
+      "type": "WITHDRAWAL"
+    }, 
+    {
+      "id": 3,
+      "amount": 110.0,
+      "createdDate": "2024-11-10T13:30:6.20",
+      "fromAccountId": null,
+      "toAccountId": 1,
+      "type": "DEPOSIT"
+    }
+  ]
 }
 ```
 
