@@ -26,7 +26,7 @@ in.
 
 ### Endpoints
 
-#### Sign up
+#### Sign Up
 
 **POST** `/api/auth/sign-up`
 
@@ -43,15 +43,15 @@ in.
 
 - **Response:**
 
-```json
+```text
 User registered successfully.
 ```
 
-#### Sign in
+#### Sign In
 
 **POST** `/api/auth/sign-in`
 
-- **Description:** Authenticate a user or admin.
+- **Description:** Authenticate a customer then response with the dashboard data containing an api key based on their role.
 - **Request Body:**
 
 ```json
@@ -69,8 +69,37 @@ User registered successfully.
     "message": "user authenticated successfully",
     "timestamp": "2024-11-18T15:42:30.123",
     "data": {
-        "header": "ROLE-BASED-HEADER",
-        "token": "ROLE-BASED-TOKEN"
+        "user": {
+          "id": 2,
+          "name": "John Doe",
+          "email": "jdoe@mail.com",
+          "regisDate": "2024-11-10",
+          "isActive": false,
+          "role": "ROLE_USER"
+        },
+        "apiKey": {
+          "header": "API-HEADER",
+          "token": "API-TOKEN"
+        },
+        "transactions": [
+          {
+            "id": 2,
+            "amount": 10.0,
+            "createdDate": "2024-11-16T12:30:4.212",
+            "fromAccountId": 1,
+            "toAccountId": null,
+            "type": "WITHDRAWAL"
+          }
+        ],
+        "accounts": [
+          {
+            "id": 1,
+            "balance": 90.0,
+            "createdDate": "2024-11-10",
+            "customerId": 2,
+            "type": "SAVING"
+          }
+        ]
     }
 }
 ```
@@ -107,6 +136,83 @@ User authorization is working properly!
 
 ```json
 Admin authorization is working properly!
+```
+
+---
+
+## User Basic Functions
+
+### Overview
+
+Users are provided with functions to open accounts and making transactions using their accounts
+
+### Endpoints
+
+#### Open New Account
+
+**POST** `/api/users/{id}/accounts`
+
+- **Description:** Open an account with predefined types (`TRANSACTION, SAVING, EMERGENCY`) for user with specified id.
+- **Headers:**
+
+  - `<user_header>: <user_token>`
+
+- **Request Body:**
+
+```json
+{
+  "email": "jdoe@mail.com",
+  "password": "john2234",
+  "pin": "122333",
+  "type": "saving"
+}
+```
+
+- **Response:**
+
+```json
+{
+  "id": 1,
+  "balance": 0.0,
+  "createdDate": "2024-11-10",
+  "customerId": 2,
+  "type": "SAVING"
+}
+```
+
+#### Making Transaction
+
+**POST** `/api/transactions`
+
+- **Description:** Using account(s) to make transaction with predefined types (`DEPOSIT, WITHDRAWAL, TRANSFER`)
+
+- **Headers:**
+
+  - `<user_header>: <user_token>`
+
+- **Request Body:**
+
+```json
+{
+  "amount": 100.0,
+  "fromAccountId": null,
+  "toAccountId": 1,
+  "type": "deposit",
+  "pin": "122333"
+}
+```
+
+- **Response:** 
+
+```json
+{
+  "id": 1,
+  "amount": 100.0,
+  "createdDate": "2024-11-10T13:23:16.220",
+  "fromAccountId": null,
+  "toAccountId": 1,
+  "type": "DEPOSIT"
+}
 ```
 
 ---
