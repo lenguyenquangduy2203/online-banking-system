@@ -11,14 +11,17 @@ import edu._2_30_online_banking_system_database.backend.models.ERole;
 import edu._2_30_online_banking_system_database.backend.payload.AccountDto;
 import edu._2_30_online_banking_system_database.backend.payload.ApiKeyDto;
 import edu._2_30_online_banking_system_database.backend.payload.CustomerDto;
+import edu._2_30_online_banking_system_database.backend.payload.TransactionDto;
 import edu._2_30_online_banking_system_database.backend.payload.responses.UserDashboardResponse;
 import edu._2_30_online_banking_system_database.backend.repositories.AccountRepository;
 import edu._2_30_online_banking_system_database.backend.services.DashboardService;
+import edu._2_30_online_banking_system_database.backend.services.TransactionService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
+    private TransactionService transactionService;
     private AccountRepository accountRepository;
 
     @Override
@@ -33,6 +36,8 @@ public class DashboardServiceImpl implements DashboardService {
             user.getIsActive(),
             ERole.ROLE_USER.toString()
         );
+        List<TransactionDto> latestTransactions = transactionService
+            .getTransactionPageOrderByDescCreatedDate(user.getId(), 0, 1);
         for (Account account : accounts) {
             censoredAccounts.add(new AccountDto(
                 account.getId(),
@@ -42,7 +47,7 @@ public class DashboardServiceImpl implements DashboardService {
                 account.getType().getName().toString()
             ));
         }
-        return new UserDashboardResponse(censoredUser, apiKey, censoredAccounts);
+        return new UserDashboardResponse(censoredUser, apiKey, latestTransactions, censoredAccounts);
     }
     
 }

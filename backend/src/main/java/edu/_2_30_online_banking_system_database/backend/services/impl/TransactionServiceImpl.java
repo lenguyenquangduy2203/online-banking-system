@@ -1,7 +1,13 @@
 package edu._2_30_online_banking_system_database.backend.services.impl;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import edu._2_30_online_banking_system_database.backend.exceptions.InvalidPinException;
@@ -51,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
             savedToAccount = accountRepository.save(toAccount);
             transaction = Transaction.builder()
                 .amount(request.amount())
-                .createdDate(new Date(System.currentTimeMillis()))
+                .createdDate(new Timestamp(System.currentTimeMillis()))
                 .toAccount(savedToAccount)
                 .type(transactionType)
                 .build();
@@ -65,7 +71,7 @@ public class TransactionServiceImpl implements TransactionService {
             savedFromAccount = accountRepository.save(fromAccount);
             transaction = Transaction.builder()
                 .amount(request.amount())
-                .createdDate(new Date(System.currentTimeMillis()))
+                .createdDate(new Timestamp(System.currentTimeMillis()))
                 .fromAccount(savedFromAccount)
                 .type(transactionType)
                 .build();
@@ -83,7 +89,7 @@ public class TransactionServiceImpl implements TransactionService {
             savedToAccount = accountRepository.save(toAccount);
             transaction = Transaction.builder()
                 .amount(request.amount())
-                .createdDate(new Date(System.currentTimeMillis()))
+                .createdDate(new Timestamp(System.currentTimeMillis()))
                 .fromAccount(savedFromAccount)
                 .toAccount(savedToAccount)
                 .type(transactionType)
@@ -102,6 +108,21 @@ public class TransactionServiceImpl implements TransactionService {
             toAccountId,
             savedTransaction.getType().getName().toString()
         );
+    }
+
+    @Override
+    public List<TransactionDto> getTransactionPageOrderByDescCreatedDate(Long customerId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<Transaction> transactions = transactionRepository.findAllByCustomerId(customerId, pageable);
+        return transactions.toList()
+            .stream().map(transaction -> new TransactionDto(
+                transaction.getId(),
+                transaction.getAmount(),
+                transaction.getCreatedDate(),
+                transaction.getFromAccount() == null? null : transaction.getFromAccount().getId(),
+                transaction.getToAccount() == null? null : transaction.getToAccount().getId(),
+                transaction.getType().getName().toString()
+            )).collect(Collectors.toList());
     }
     
 }
