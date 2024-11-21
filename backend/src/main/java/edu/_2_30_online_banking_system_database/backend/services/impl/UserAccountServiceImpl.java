@@ -13,36 +13,20 @@ import edu._2_30_online_banking_system_database.backend.models.AccountType;
 import edu._2_30_online_banking_system_database.backend.models.Customer;
 import edu._2_30_online_banking_system_database.backend.models.EAccountType;
 import edu._2_30_online_banking_system_database.backend.payload.AccountDto;
-import edu._2_30_online_banking_system_database.backend.payload.CustomerDto;
 import edu._2_30_online_banking_system_database.backend.repositories.AccountRepository;
 import edu._2_30_online_banking_system_database.backend.repositories.AccountTypeRepository;
 import edu._2_30_online_banking_system_database.backend.repositories.CustomerRepository;
-import edu._2_30_online_banking_system_database.backend.services.BankingService;
 import edu._2_30_online_banking_system_database.backend.services.PinService;
+import edu._2_30_online_banking_system_database.backend.services.UserAccountService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class BankingServiceImpl implements BankingService {
+public class UserAccountServiceImpl implements UserAccountService {
     private AccountTypeRepository accountTypeRepository;
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
     private PinService pinService;
-
-    @Override
-    public CustomerDto getUserInfoByEmail(String email) {
-        Customer user = customerRepository.findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with email: "+ email));
-
-        return new CustomerDto(
-            user.getId(),
-            user.getName(),
-            user.getEmail(),
-            user.getRegisDate(),
-            user.getIsActive(),
-            user.getRole().getName().toString()
-        );
-    }
 
     @Override
     public AccountDto createAccountForUser(Long userId, EAccountType type, String pin) {
