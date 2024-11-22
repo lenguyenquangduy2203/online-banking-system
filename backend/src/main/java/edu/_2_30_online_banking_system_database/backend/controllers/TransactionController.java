@@ -1,13 +1,16 @@
 package edu._2_30_online_banking_system_database.backend.controllers;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu._2_30_online_banking_system_database.backend.exceptions.UnimplementedException;
@@ -41,6 +44,25 @@ public class TransactionController {
                 transaction
             ),
             HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<TransactionDto>>> getPageOfTransactions(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
+        List<TransactionDto> transactions = transactionService
+            .getTransactionPageOrderByDescCreatedDate(page, size);
+        return new ResponseEntity<>(
+            new ApiResponse<>(
+                "success",
+                "page "+page+" of size "+size+" is retrieved",
+                LocalDateTime.now(),
+                transactions
+            ),
+            HttpStatus.OK
         );
     }
 }
