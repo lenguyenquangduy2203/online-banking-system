@@ -36,7 +36,8 @@ public class AuthController {
                 break;
         
             case ROLE_ADMIN:
-                throw new UnimplementedException("This method is unimplemented");
+                dashboardData = dashboardService.getAdminDashboardData(customer, apiKey);
+                break;
         
             default:
                 throw new UnimplementedException("This method is unimplemented");

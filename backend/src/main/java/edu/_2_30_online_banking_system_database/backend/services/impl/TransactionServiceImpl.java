@@ -124,5 +124,20 @@ public class TransactionServiceImpl implements TransactionService {
                 transaction.getType().getName().toString()
             )).collect(Collectors.toList());
     }
+
+    @Override
+    public List<TransactionDto> getTransactionPageOrderByDescCreatedDate(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<Transaction> transactions = transactionRepository.findAll(pageable);
+        return transactions.toList()
+            .stream().map(transaction -> new TransactionDto(
+                transaction.getId(),
+                transaction.getAmount(),
+                transaction.getCreatedDate(),
+                transaction.getFromAccount() == null? null : transaction.getFromAccount().getId(),
+                transaction.getToAccount() == null? null : transaction.getToAccount().getId(),
+                transaction.getType().getName().toString()
+            )).collect(Collectors.toList());
+    }
     
 }

@@ -9,4 +9,5 @@ import jakarta.mail.AuthenticationFailedException;
 public interface TransactionService {
     TransactionDto makeTransaction(TransactionRequest request) throws IllegalArgumentException, AuthenticationFailedException;
     List<TransactionDto> getTransactionPageOrderByDescCreatedDate(Long customerId, int page, int size);
+    List<TransactionDto> getTransactionPageOrderByDescCreatedDate(int page, int size);
 }

@@ -12,6 +12,7 @@ import edu._2_30_online_banking_system_database.backend.payload.AccountDto;
 import edu._2_30_online_banking_system_database.backend.payload.ApiKeyDto;
 import edu._2_30_online_banking_system_database.backend.payload.CustomerDto;
 import edu._2_30_online_banking_system_database.backend.payload.TransactionDto;
+import edu._2_30_online_banking_system_database.backend.payload.responses.AdminDashboardResponse;
 import edu._2_30_online_banking_system_database.backend.payload.responses.UserDashboardResponse;
 import edu._2_30_online_banking_system_database.backend.repositories.AccountRepository;
 import edu._2_30_online_banking_system_database.backend.services.DashboardService;
@@ -48,6 +49,21 @@ public class DashboardServiceImpl implements DashboardService {
             ));
         }
         return new UserDashboardResponse(censoredUser, apiKey, latestTransactions, censoredAccounts);
+    }
+
+    @Override
+    public AdminDashboardResponse getAdminDashboardData(Customer admin, ApiKeyDto apiKey) {
+        CustomerDto censoredAdmin = new CustomerDto(
+            admin.getId(),
+            admin.getName(),
+            admin.getEmail(),
+            admin.getRegisDate(),
+            admin.getIsActive(),
+            ERole.ROLE_ADMIN.toString()
+        );
+        List<TransactionDto> censoredTransactions = transactionService
+            .getTransactionPageOrderByDescCreatedDate(0, 10);
+        return new AdminDashboardResponse(censoredAdmin, apiKey, censoredTransactions);
     }
     
 }
