@@ -13,9 +13,13 @@ import org.springframework.stereotype.Service;
 import edu._2_30_online_banking_system_database.backend.exceptions.InvalidPinException;
 import edu._2_30_online_banking_system_database.backend.exceptions.UnimplementedException;
 import edu._2_30_online_banking_system_database.backend.models.Account;
+import edu._2_30_online_banking_system_database.backend.models.Customer;
 import edu._2_30_online_banking_system_database.backend.models.ETransactionType;
 import edu._2_30_online_banking_system_database.backend.models.Transaction;
 import edu._2_30_online_banking_system_database.backend.models.TransactionType;
+import edu._2_30_online_banking_system_database.backend.payload.AccountDetails;
+import edu._2_30_online_banking_system_database.backend.payload.CustomerDto;
+import edu._2_30_online_banking_system_database.backend.payload.TransactionDetails;
 import edu._2_30_online_banking_system_database.backend.payload.TransactionDto;
 import edu._2_30_online_banking_system_database.backend.payload.requests.TransactionRequest;
 import edu._2_30_online_banking_system_database.backend.repositories.AccountRepository;
@@ -138,6 +142,43 @@ public class TransactionServiceImpl implements TransactionService {
                 transaction.getToAccount() == null? null : transaction.getToAccount().getId(),
                 transaction.getType().getName().toString()
             )).collect(Collectors.toList());
+    }
+
+    @Override
+    public TransactionDetails getTransactionDetails(Long transactionId) {
+        Transaction transaction = transactionRepository.findById(transactionId)
+            .orElseThrow(() -> new UnimplementedException("Cannot find transaction!"));
+        Customer transactionMaker = transaction.getFromAccount() != null?
+            transaction.getFromAccount().getCustomer() : transaction.getToAccount().getCustomer();
+        CustomerDto censoredTransactionMaker = new CustomerDto(
+            transactionMaker.getId(),
+            transactionMaker.getName(),
+            transactionMaker.getEmail(),
+            transactionMaker.getRegisDate(),
+            transactionMaker.getIsActive(),
+            transactionMaker.getRole().getName().toString()
+        );
+        AccountDetails fromAccountDetails = null;
+        Account fromAccount = transaction.getFromAccount();
+        if (fromAccount != null) {
+            fromAccountDetails = new AccountDetails(
+                fromAccount.getId(), 
+                fromAccount.getCreatedDate(), 
+                fromAccount.getCustomer().getId(), 
+                fromAccount.getType().getName().toString()
+            );
+        } 
+        AccountDetails toAccountDetails = null;
+        Account toAccount = transaction.getToAccount();
+        if (toAccount != null) {
+            toAccountDetails = new AccountDetails(
+                toAccount.getId(), 
+                toAccount.getCreatedDate(), 
+                toAccount.getCustomer().getId(), 
+                toAccount.getType().getName().toString()
+            );
+        } 
+        return new TransactionDetails(censoredTransactionMaker, fromAccountDetails, toAccountDetails);
     }
     
 }
