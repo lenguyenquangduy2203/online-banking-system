@@ -62,6 +62,7 @@ User registered successfully.
 ```
 
 - **Response:**
+  - For User Dashboard
 
 ```json
 {
@@ -104,6 +105,57 @@ User registered successfully.
 }
 ```
 
+  - For Admin Dashboard
+
+```json
+{
+    "status": "success",
+    "message": "user authenticated successfully",
+    "timestamp": "2024-11-18T15:42:30.123",
+    "data": {
+      "admin": {
+        "id": 2,
+        "name": "John Doe",
+        "email": "jdoe@mail.com",
+        "regisDate": "2024-11-10",
+        "isActive": true,
+        "role": "ROLE_ADMIN"
+      },
+      "apiKey": {
+        "header": "API-HEADER",
+        "token": "API-TOKEN"
+      },
+      "transactions": [
+        {
+            "id": 15,
+            "amount": 300.0,
+            "createdDate": "2024-11-16T18:45:30.567",
+            "fromAccountId": 2,
+            "toAccountId": 1,
+            "type": "TRANSFER"
+        },
+        {
+            "id": 14,
+            "amount": 20.0,
+            "createdDate": "2024-11-16T17:30:15.432",
+            "fromAccountId": 1,
+            "toAccountId": null,
+            "type": "WITHDRAWAL"
+        },
+        /*...*/
+        {
+            "id": 6,
+            "amount": 150.0,
+            "createdDate": "2024-11-16T12:40:00.123",
+            "fromAccountId": null,
+            "toAccountId": 1,
+            "type": "DEPOSIT"
+        }
+      ]
+    }
+}
+```
+
 ### Tets Authentication and Authorization APIs
 
 #### Test User Authentication API
@@ -118,7 +170,7 @@ User registered successfully.
 
 - **Response:**
 
-```json
+```text
 User authorization is working properly!
 ```
 
@@ -134,7 +186,7 @@ User authorization is working properly!
 
 - **Response:**
 
-```json
+```text
 Admin authorization is working properly!
 ```
 
@@ -275,6 +327,123 @@ GET /api/users/2/transactions?page=0&size=3
       "type": "DEPOSIT"
     }
   ]
+}
+```
+
+---
+## Admin Basic Functions
+
+### Overview
+
+System admins are provided with endpoints to manage users' transactions with suitable censorship.
+
+### Endpoints
+
+#### Get All Transactions in Form of Page
+
+**GET** `/api/transactions`
+
+- **Description:** Return a page of transactions made by all users using the system.
+- **Headers:**
+
+  - `<admin_header>: <admin_token>`
+
+- **Query Parameters:**
+
+  - `page` (optional, default = 0, `int`): The index of the page of transactions.
+  - `size` (optional, default = 10, `int`): The maximum size of each page.
+
+- **Example Request:**
+
+```http
+GET `/api/transactions?page=1&size=10`
+```
+
+- **Response:**
+
+```json
+{
+  "status": "found",
+  "message": "page 1 of size 10 is retrieved",
+  "timestamp": "2024-11-18T16:21:20.13",
+  "data": [
+    {
+        "id": 5,
+        "amount": 75.0,
+        "createdDate": "2024-11-16T12:35:20.654",
+        "fromAccountId": 1,
+        "toAccountId": 3,
+        "type": "TRANSFER"
+    },
+    {
+        "id": 4,
+        "amount": 20.0,
+        "createdDate": "2024-11-16T12:30:15.123",
+        "fromAccountId": 1,
+        "toAccountId": null,
+        "type": "WITHDRAWAL"
+    },
+    {
+        "id": 3,
+        "amount": 500.0,
+        "createdDate": "2024-11-16T12:25:30.321",
+        "fromAccountId": null,
+        "toAccountId": 1,
+        "type": "DEPOSIT"
+    },
+    {
+        "id": 2,
+        "amount": 10.0,
+        "createdDate": "2024-11-16T12:20:45.456",
+        "fromAccountId": 1,
+        "toAccountId": null,
+        "type": "WITHDRAWAL"
+    },
+    {
+        "id": 1,
+        "amount": 100.0,
+        "createdDate": "2024-11-16T12:15:10.789",
+        "fromAccountId": 1,
+        "toAccountId": 2,
+        "type": "TRANSFER"
+    }
+  ]
+}
+```
+
+### Get Transaction Details 
+
+**GET** `/api/transactions/{id}`
+
+- **Description:** Return most of information related to the transaction with proper censorship.
+- **Headers:**
+
+  - `<admin_header>: <admin_token>`
+
+- **Response:**
+
+```json
+{
+  "status": "found",
+  "message": "details for specified transaction is found",
+  "timestamp": "2024-11-16T12:17:14.612",
+  "data": {
+    "transactionMaker": {
+      "id": 2,
+      "name": "John Doe",
+      "email": "jdoe@mail.com",
+      "regisDate": "2024-11-10",
+      "isActive": false,
+      "role": "ROLE_USER"
+    },
+    "fromAccount": null,
+    "toAccount": {
+      "id": 1,
+      "createdDate": "2024-11-10",
+      "customerId": 2,
+      "type": "SAVING"
+    },
+  }
 }
 ```
 
