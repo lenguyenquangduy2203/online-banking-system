@@ -1,0 +1,22 @@
+.payments .tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.payments .tabs button {
+  padding: 10px 20px;
+  background-color: #efefef;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.payments .tabs button.active {
+  background-color: #6c63ff;
+  color: #fff;
+}
+
+.tab-content {
+  margin-top: 20px;
+}

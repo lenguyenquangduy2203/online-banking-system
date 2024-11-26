@@ -1,0 +1,107 @@
+body {
+  background: linear-gradient(120deg, #4c4cd9, #635dff);
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center; /* Căn ngang giữa màn hình */
+  align-items: center; /* Căn dọc giữa màn hình */
+  height: 100vh; /* Đảm bảo chiều cao toàn màn hình */
+  overflow: hidden; /* Ngăn chặn cuộn trang */
+  padding-top: 20px
+}
+
+.login-page {
+  display: flex;
+  flex-wrap: nowrap; /* Đảm bảo phần tử không bị cuộn */
+  width: 90%;
+  max-width: 1000px;
+  min-height: 600px; /* Đặt chiều cao tối thiểu để cân đối */
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
+  padding: 20px; /* Khoảng cách bên trong khung */
+  box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+}
+
+.welcome-section {
+  flex: 1.5; /* Điều chỉnh độ rộng phần welcome */
+  background: linear-gradient(120deg, #635dff, #4c4cd9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 100px;
+  text-align: center;
+  border-radius: 20px;
+  height: 100%; /* Căn chỉnh chiều cao đồng bộ */
+  box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến kích thước */
+}
+
+.welcome-section h1 {
+  font-size: 36px;
+  margin-bottom: 25px;
+}
+
+.welcome-section p {
+  font-size: 18px;
+  max-width: 400px;
+}
+
+.auth-wrapper {
+  flex: 1.2; /* Điều chỉnh độ rộng phần form */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Đồng bộ chiều cao với phần welcome */
+}
+
+.auth-form {
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+}
+
+.auth-form h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #4c4cd9;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 25px;
+  background: white;
+}
+
+input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 12px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(120deg, #4c4cd9, #635dff);
+  font-size: 18px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.redirect {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 16px;
+}

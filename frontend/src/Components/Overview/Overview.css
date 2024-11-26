@@ -1,0 +1,45 @@
+
+.overview {
+  padding: 20px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  align-items: stretch; /* Làm các thẻ đồng đều chiều cao */
+}
+
+.card {
+  padding: 15px 20px; /* Giảm padding */
+  min-height: 150px; /* Giới hạn chiều cao tối thiểu */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Căn giữa theo chiều dọc */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  border: 1px solid #ddd; /* Viền mỏng */
+  border-radius: 10px; /* Góc bo tròn */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
+  background-color: #f9f9f9; /* Nền nhạt */
+}
+
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.balance-card {
+  text-align: center;
+}
+
+.summary-card p {
+  margin: 5px 0;
+}
+
+/* Responsive - trên màn hình nhỏ */
+@media (max-width: 768px) {
+  .balance-card {
+    grid-column: span 1;
+  }
+}

@@ -1,0 +1,36 @@
+.transaction-summary {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-summary h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #4c4cd9;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .summary-item:last-child {
+    border-bottom: none;
+  }
+  
+  .summary-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .summary-item span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4c4cd9;
+  }
+  
