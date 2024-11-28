@@ -12,7 +12,7 @@ function TransactionHistory({ language }) {
       },
       tableHeaders: ["Date", "Type", "Amount", "Receiver"],
     },
-    vi: {
+    vn: {
       title: "Lịch Sử Giao Dịch",
       filters: {
         all: "Tất cả",

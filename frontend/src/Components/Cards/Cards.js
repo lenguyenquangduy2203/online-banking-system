@@ -13,7 +13,7 @@ const Cards = ({ language }) => {
       title: "Bank Cards",
       balance: "Balance",
     },
-    vi: {
+    vn: {
       title: "Thẻ Ngân Hàng",
       balance: "Số Dư",
     },

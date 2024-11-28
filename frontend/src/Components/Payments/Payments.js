@@ -20,7 +20,7 @@ const Payments = ({ language }) => {
         submit: "Pay",
       },
     },
-    vi: {
+    vn: {
       title: "Thanh Toán",
       tabs: ["Chuyển Tiền", "Thanh Toán"],
       transferForm: {
