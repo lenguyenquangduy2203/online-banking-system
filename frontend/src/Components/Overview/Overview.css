@@ -7,20 +7,20 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   padding: 20px;
-  align-items: stretch; /* Làm các thẻ đồng đều chiều cao */
+  align-items: stretch;
 }
 
 .card {
-  padding: 15px 20px; /* Giảm padding */
-  min-height: 150px; /* Giới hạn chiều cao tối thiểu */
+  padding: 15px 20px;
+  min-height: 150px;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Căn giữa theo chiều dọc */
-  align-items: center; /* Căn giữa theo chiều ngang */
-  border: 1px solid #ddd; /* Viền mỏng */
-  border-radius: 10px; /* Góc bo tròn */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
-  background-color: #f9f9f9; /* Nền nhạt */
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
 
 

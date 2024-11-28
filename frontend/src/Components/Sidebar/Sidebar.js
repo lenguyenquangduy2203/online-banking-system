@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = ({ language }) => {
+  const navigate = useNavigate();
+
   const getText = (key) => {
     const text = {
       en: {
@@ -22,7 +24,12 @@ const Sidebar = ({ language }) => {
         logout: "Đăng xuất",
       },
     };
-    return text[language][key]; // Đổi từ "texts" thành "text"
+    return text[language][key];
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/auth");
   };
 
   return (
@@ -45,7 +52,10 @@ const Sidebar = ({ language }) => {
           <Link to="/setting">{getText("setting")}</Link>
         </li>
         <li>
-          <Link to="/logout">{getText("logout")}</Link>
+          {/* Add a button to handle logout */}
+          <button onClick={handleLogout} className="logout-button">
+            {getText("logout")}
+          </button>
         </li>
       </ul>
     </div>

@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import "./Setting.css";
 
 const Setting = ({ onLanguageChange }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const languages = ["en", "vn"];
+  const [selectedLanguage, setSelectedLanguage] = useState("vn");
 
-  // Đảm bảo giá trị ngôn ngữ ban đầu được đồng bộ với prop từ App.js
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language") || "en";
+    const savedLanguage = localStorage.getItem("language") || "vn";
+    console.log("Saved language from localStorage:", savedLanguage);
     setSelectedLanguage(savedLanguage);
   }, []);
 
   const handleChange = (e) => {
-    setSelectedLanguage(e.target.value);
-    onLanguageChange(e.target.value);
-    localStorage.setItem("language", e.target.value);  // Lưu ngôn ngữ vào localStorage
+    const newLanguage = e.target.value;
+    console.log("Language changed to:", newLanguage);
+    setSelectedLanguage(newLanguage);
+    onLanguageChange(newLanguage);
+    localStorage.setItem("language", newLanguage);
   };
 
   return (

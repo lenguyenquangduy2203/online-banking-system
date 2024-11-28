@@ -3,29 +3,29 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: center; /* Căn ngang giữa màn hình */
-  align-items: center; /* Căn dọc giữa màn hình */
-  height: 100vh; /* Đảm bảo chiều cao toàn màn hình */
-  overflow: hidden; /* Ngăn chặn cuộn trang */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
   padding-top: 20px
 }
 
 .login-page {
   display: flex;
-  flex-wrap: nowrap; /* Đảm bảo phần tử không bị cuộn */
+  flex-wrap: nowrap;
   width: 90%;
   max-width: 1000px;
-  min-height: 600px; /* Đặt chiều cao tối thiểu để cân đối */
+  min-height: 600px;
   background: white;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
-  padding: 20px; /* Khoảng cách bên trong khung */
-  box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .welcome-section {
-  flex: 1.5; /* Điều chỉnh độ rộng phần welcome */
+  flex: 1.5;
   background: linear-gradient(120deg, #635dff, #4c4cd9);
   display: flex;
   flex-direction: column;
@@ -35,8 +35,8 @@ body {
   padding: 100px;
   text-align: center;
   border-radius: 20px;
-  height: 100%; /* Căn chỉnh chiều cao đồng bộ */
-  box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến kích thước */
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .welcome-section h1 {
@@ -50,18 +50,18 @@ body {
 }
 
 .auth-wrapper {
-  flex: 1.2; /* Điều chỉnh độ rộng phần form */
+  flex: 1.2;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Đồng bộ chiều cao với phần welcome */
+  height: 100%;
 }
 
 .auth-form {
   padding: 30px;
   width: 100%;
   max-width: 400px;
-  box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+  box-sizing: border-box;
 }
 
 .auth-form h2 {
