@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getRecentTransactions } from "../../services/apiServices";
 import "./RecentOperations.css";
 
-const transactions = [
-  { name: "Nguyễn Văn A", amount: "+ 2,000,000 VND", isPositive: true },
-  { name: "Shopee", amount: "- 2,600,000 VND", isPositive: false },
-  { name: "Spotify", amount: "- 59,000 VND", isPositive: false },
-  { name: "Netflix", amount: "- 180,000 VND", isPositive: false },
-  { name: "Grab", amount: "- 50,000 VND", isPositive: false },
-];
-
 function RecentOperations({ language, getText }) {
+  const [transactions, setTransactions] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const data = await getRecentTransactions();
+        setTransactions(data);
+      } catch (err) {
+        setError("Failed to load recent transactions.");
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
   if (!transactions || transactions.length === 0) {
     return (
       <div className="recent-operations">

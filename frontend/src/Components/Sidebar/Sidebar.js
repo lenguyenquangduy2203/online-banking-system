@@ -52,7 +52,7 @@ const Sidebar = ({ language }) => {
           <Link to="/setting">{getText("setting")}</Link>
         </li>
         <li>
-          {/* Add a button to handle logout */}
+          {/* Thay Link bằng nút logout có logic */}
           <button onClick={handleLogout} className="logout-button">
             {getText("logout")}
           </button>

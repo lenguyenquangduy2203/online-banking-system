@@ -1,0 +1,92 @@
+/* src/components/Dashboard/UserDashboard.css */
+
+/* Container của User Dashboard */
+.user-dashboard {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Tiêu đề chính */
+  .user-dashboard h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4c4cd9;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Hiển thị thông tin người dùng */
+  .user-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .user-info p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  /* Thẻ của người dùng */
+  .cards-section {
+    margin-top: 30px;
+  }
+  
+  .cards-section h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #4c4cd9;
+  }
+  
+  .cards-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .cards-section li {
+    background-color: #fff;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cards-section li span {
+    font-weight: bold;
+  }
+  
+  /* Lịch sử giao dịch */
+  .transactions-section {
+    margin-top: 30px;
+  }
+  
+  .transactions-section h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #4c4cd9;
+  }
+  
+  .transactions-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .transactions-section li {
+    background-color: #fff;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transactions-section li span {
+    font-weight: bold;
+  }
+  
