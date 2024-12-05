@@ -1,55 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getOverview } from "../../services/apiServices";
 import "./Overview.css";
-import RecentOperations from "../RecentTransaction/RecentOperations";
-import Cards from "../Cards/Cards";
 
 function Overview({ language }) {
-  const getText = (key) => {
-    const text = {
-      en: {
-        accountBalance: "Account Balance",
-        transactionSummary: "Transaction Summary",
-        income: "Income this month:",
-        expenses: "Expenses this month:",
-        remainingBalance: "Remaining balance:",
-        noTransactions: "No transactions found",
-      },
-      vn: {
-        accountBalance: "Số dư tài khoản",
-        transactionSummary: "Tóm tắt giao dịch",
-        income: "Thu nhập tháng này:",
-        expenses: "Chi tiêu tháng này:",
-        remainingBalance: "Số dư còn lại:",
-        noTransactions: "Không có giao dịch nào",
-      },
+  const [overviewData, setOverviewData] = useState({
+    accountBalance: "N/A",
+    transactionSummary: {
+      income: "N/A",
+      expenses: "N/A",
+      remainingBalance: "N/A",
+    },
+    recentTransactions: [],
+  });
+
+  useEffect(() => {
+    const fetchOverview = async () => {
+      try {
+        const response = await getOverview();
+        setOverviewData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch overview data", error);
+      }
     };
-    return text[language][key];
-  };
+    fetchOverview();
+  }, []);
 
   return (
     <div className="overview">
-      {/* Số dư tài khoản */}
       <div className="card balance-card">
-        <h2>{getText("accountBalance")}</h2>
-        <p>100,487,250 VND</p>
+        <h2>Account Balance</h2>
+        <p>{overviewData.accountBalance}</p>
       </div>
-
-      {/* Tóm tắt giao dịch */}
       <div className="card summary-card">
-        <h2>{getText("transactionSummary")}</h2>
-        <p>{getText("income")} 10,000,000 VND</p>
-        <p>{getText("expenses")} 5,000,000 VND</p>
-        <p>{getText("remainingBalance")} 5,000,000 VND</p>
+        <h2>Transaction Summary</h2>
+        <p>Income: {overviewData.transactionSummary.income}</p>
+        <p>Expenses: {overviewData.transactionSummary.expenses}</p>
+        <p>Remaining Balance: {overviewData.transactionSummary.remainingBalance}</p>
       </div>
-
-      {/* Giao dịch gần đây */}
-      <div className="recent-operations-container">
-        <RecentOperations language={language} getText={getText} />
-      </div>
-
-      {/* Thẻ ngân hàng */}
-      <div className="cards-container">
-        <Cards />
+      <div className="recent-operations">
+        <h2>Recent Transactions</h2>
+        {overviewData.recentTransactions.length > 0 ? (
+          <ul>
+            {overviewData.recentTransactions.map((transaction) => (
+              <li key={transaction.id}>
+                {transaction.description}: {transaction.amount}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No transactions found.</p>
+        )}
       </div>
     </div>
   );

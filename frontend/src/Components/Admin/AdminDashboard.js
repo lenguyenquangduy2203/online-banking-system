@@ -1,51 +1,59 @@
-// src/components/Dashboard/AdminDashboard.js
-import React, { useState, useEffect } from 'react';
-import { testAdminAuth } from '../../services/apiServices';
-import './AdminDashboard.css';
+import React, { useEffect, useState } from "react";
+import "./AdminDashboard.css";
+import { getAdminDashboardData } from "../../services/apiServices";
 
-const AdminDashboard = () => {
-  const [adminData, setAdminData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function AdminDashboard() {
+  const [dashboardData, setDashboardData] = useState({
+    totalUsers: 0,
+    totalCards: 0,
+    totalTransactions: 0,
+    recentTransactions: [],
+  });
 
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const response = await testAdminAuth();
-        setAdminData(response);
+        const response = await getAdminDashboardData();
+        setDashboardData(response.data);
       } catch (error) {
-        setError("Failed to load admin data");
-        console.error("Admin authorization failed:", error);
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch admin dashboard data", error);
       }
     };
-
     fetchAdminData();
   }, []);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
   return (
     <div className="admin-dashboard">
-      <h2>Admin Dashboard</h2>
-      {adminData ? (
-        <div className="admin-info">
-          <p>Welcome, Admin {adminData.name}</p>
-          <p>Total Transactions: {adminData.totalTransactions || 0}</p>
-          <p>Registered Users: {adminData.totalUsers || 0}</p>
+      <div className="overview-cards">
+        <div className="card">
+          <h3>Total Users</h3>
+          <p>{dashboardData.totalUsers}</p>
         </div>
-      ) : (
-        <p>No data available</p>
-      )}
+        <div className="card">
+          <h3>Total Cards</h3>
+          <p>{dashboardData.totalCards}</p>
+        </div>
+        <div className="card">
+          <h3>Total Transactions</h3>
+          <p>{dashboardData.totalTransactions}</p>
+        </div>
+      </div>
+      <div className="recent-transactions">
+        <h2>Recent Transactions</h2>
+        {dashboardData.recentTransactions.length > 0 ? (
+          <ul>
+            {dashboardData.recentTransactions.map((transaction) => (
+              <li key={transaction.id}>
+                <strong>{transaction.description}</strong>: {transaction.amount} VND
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No recent transactions found.</p>
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default AdminDashboard;

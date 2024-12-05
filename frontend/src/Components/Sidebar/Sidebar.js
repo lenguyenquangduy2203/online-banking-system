@@ -1,65 +1,51 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./Sidebar.css";
+import React, { useEffect, useState } from "react";
+import { getTransactionHistory } from "../../services/apiServices";
+import "./TransactionHistory.css";
 
-const Sidebar = ({ language }) => {
-  const navigate = useNavigate();
+const TransactionHistory = ({ language }) => {
+  const [transactions, setTransactions] = useState([]);
+  const [error, setError] = useState("");
+  const [filters, setFilters] = useState({});
 
-  const getText = (key) => {
-    const text = {
-      en: {
-        overview: "Overview",
-        cards: "Cards",
-        payments: "Payments",
-        transactionHistory: "Transaction History",
-        setting: "Setting",
-        logout: "Log out",
-      },
-      vn: {
-        overview: "Tổng quan",
-        cards: "Thẻ",
-        payments: "Thanh toán",
-        transactionHistory: "Lịch sử giao dịch",
-        setting: "Cài đặt",
-        logout: "Đăng xuất",
-      },
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const data = await getTransactionHistory(filters);
+        setTransactions(data);
+      } catch (err) {
+        setError("Failed to load transaction history.");
+      }
     };
-    return text[language][key];
-  };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/auth");
-  };
+    fetchTransactions();
+  }, [filters]);
 
   return (
-    <div className="sidebar">
-      <h2>Online Banking</h2>
-      <ul>
-        <li>
-          <Link to="/">{getText("overview")}</Link>
-        </li>
-        <li>
-          <Link to="/cards">{getText("cards")}</Link>
-        </li>
-        <li>
-          <Link to="/payments">{getText("payments")}</Link>
-        </li>
-        <li>
-          <Link to="/transactionhistory">{getText("transactionHistory")}</Link>
-        </li>
-        <li>
-          <Link to="/setting">{getText("setting")}</Link>
-        </li>
-        <li>
-          {/* Thay Link bằng nút logout có logic */}
-          <button onClick={handleLogout} className="logout-button">
-            {getText("logout")}
-          </button>
-        </li>
-      </ul>
+    <div className="transaction-history">
+      <h3>{language === "en" ? "Transaction History" : "Lịch Sử Giao Dịch"}</h3>
+      {error && <p className="error-message">{error}</p>}
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Recipient</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((transaction, index) => (
+            <tr key={index}>
+              <td>{transaction.date}</td>
+              <td>{transaction.type}</td>
+              <td>{transaction.amount}</td>
+              <td>{transaction.recipient}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default Sidebar;
+export default TransactionHistory;
