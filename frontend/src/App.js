@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import "./App.css";
 
 // Import các component
-import Sidebar from "./components/Sidebar/Sidebar";
-import Overview from "./components/Overview/Overview";
-import Cards from "./components/Cards/Cards";
-import Payments from "./components/Payments/Payments";
-import Setting from "./components/Setting/Setting";
-import TransactionHistory from "./components/TransactionHistory/TransactionHistory";
-import Auth from "./components/Auth/Auth";
-import AdminDashboard from "./components/Admin/AdminDashboard";
-import AccountCreationComponent from "./components/AccountCreation/AccountCreation"; // Import component
+import Sidebar from "./Components/Sidebar/Sidebar";
+import Overview from "./Components/Overview/Overview";
+import Cards from "./Components/Cards/Cards";
+import Payments from "./Components/Payments/Payments";
+import Setting from "./Components/Setting/Setting";
+import TransactionHistory from "./Components/TransactionHistory/TransactionHistory";
+import Auth from "./Components/Auth/Auth";
+import AdminDashboard from "./Components/Admin/AdminDashboard";
+import AccountCreationComponent from "./Components/AccountCreation/AccountCreation"; // Import component
 
 function App() {
   const [language, setLanguage] = useState("en");
