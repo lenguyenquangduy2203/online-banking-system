@@ -1,12 +1,10 @@
 package edu._2_30_online_banking_system_database.backend.config;
 
-import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
 import java.io.IOException;
 
-import edu._2_30_online_banking_system_database.backend.services.impl.AuthenticationService;
+import org.springframework.http.MediaType;
+import org.springframework.web.filter.GenericFilterBean;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -18,7 +16,6 @@ public class ApiKeyFilter extends GenericFilterBean {
 
     private ApiProperties apiProperties;
 
-    // Constructor nhận vào ApiProperties
     public ApiKeyFilter(ApiProperties apiProperties) {
         this.apiProperties = apiProperties;
     }
@@ -30,7 +27,6 @@ public class ApiKeyFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String apiKey = httpRequest.getHeader(apiProperties.getUserHeader());
 
-        // Kiểm tra API key hợp lệ
         if (apiKey == null || !apiKey.equals(apiProperties.getUserToken())) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

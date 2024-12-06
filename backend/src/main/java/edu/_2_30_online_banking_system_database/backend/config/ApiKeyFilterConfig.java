@@ -9,7 +9,6 @@ public class ApiKeyFilterConfig {
 
     private final ApiProperties apiProperties;
 
-    // Constructor để inject ApiProperties
     public ApiKeyFilterConfig(ApiProperties apiProperties) {
         this.apiProperties = apiProperties;
     }
@@ -17,9 +16,8 @@ public class ApiKeyFilterConfig {
     @Bean
     public FilterRegistrationBean<ApiKeyFilter> apiKeyFilter() {
         FilterRegistrationBean<ApiKeyFilter> registrationBean = new FilterRegistrationBean<>();
-        // Truyền ApiProperties vào constructor của ApiKeyFilter
         registrationBean.setFilter(new ApiKeyFilter(apiProperties));  
-        registrationBean.addUrlPatterns("/api/transactions/*");  // Chỉ áp dụng cho các URL cần bảo vệ
+        registrationBean.addUrlPatterns("/api/transactions/*"); 
         return registrationBean;
     }
 }

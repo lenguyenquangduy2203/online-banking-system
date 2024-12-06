@@ -1,18 +1,10 @@
 package edu._2_30_online_banking_system_database.backend.controllers;
 
-import edu._2_30_online_banking_system_database.backend.models.EAccountType;
-import edu._2_30_online_banking_system_database.backend.payload.AccountDto;
-import edu._2_30_online_banking_system_database.backend.payload.TransactionDto;
-import edu._2_30_online_banking_system_database.backend.payload.requests.LoginDto;
-import edu._2_30_online_banking_system_database.backend.payload.responses.ApiResponse;
-import edu._2_30_online_banking_system_database.backend.services.CustomerService;
-import edu._2_30_online_banking_system_database.backend.services.TransactionService;
-import edu._2_30_online_banking_system_database.backend.services.UserAccountService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import lombok.AllArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import edu._2_30_online_banking_system_database.backend.models.EAccountType;
+import edu._2_30_online_banking_system_database.backend.payload.AccountDto;
+import edu._2_30_online_banking_system_database.backend.payload.TransactionDto;
+import edu._2_30_online_banking_system_database.backend.payload.requests.LoginDto;
+import edu._2_30_online_banking_system_database.backend.payload.responses.ApiResponse;
+import edu._2_30_online_banking_system_database.backend.services.CustomerService;
+import edu._2_30_online_banking_system_database.backend.services.TransactionService;
+import edu._2_30_online_banking_system_database.backend.services.UserAccountService;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/api/users")
@@ -87,7 +89,6 @@ public class UserController {
         }
     }
 
-    // API lấy tất cả giao dịch của người dùng
     @GetMapping("/{id}/transactions")
     public ResponseEntity<ApiResponse<List<TransactionDto>>> getAllTransactionsByUser(
         @PathVariable Long id, 

@@ -1,5 +1,10 @@
 package edu._2_30_online_banking_system_database.backend.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import edu._2_30_online_banking_system_database.backend.models.Account;
 import edu._2_30_online_banking_system_database.backend.models.Customer;
 import edu._2_30_online_banking_system_database.backend.models.ERole;
@@ -12,10 +17,7 @@ import edu._2_30_online_banking_system_database.backend.payload.responses.UserDa
 import edu._2_30_online_banking_system_database.backend.repositories.AccountRepository;
 import edu._2_30_online_banking_system_database.backend.services.DashboardService;
 import edu._2_30_online_banking_system_database.backend.services.TransactionService;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -38,7 +40,6 @@ public class DashboardServiceImpl implements DashboardService {
         List<TransactionDto> latestTransactions = transactionService
             .getTransactionPageOrderByDescCreatedDate(user.getId(), 0, 1);
         
-        // Lặp qua các tài khoản và tạo AccountDto với double cho balance
         for (Account account : accounts) {
             censoredAccounts.add(new AccountDto(
                 account.getId(),

@@ -23,11 +23,9 @@ public class TransactionDto {
     private String type;
 
     public static TransactionDto from(Transaction transaction) {
-        // Chuyển đổi createdDate thành LocalDateTime và định dạng nó
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = transaction.getCreatedDate().toLocalDateTime().format(formatter);
+        String formattedDate = transaction.getCreatedDate().atStartOfDay().format(formatter);
 
-        // Lấy tên loại giao dịch, đảm bảo không có NullPointerException
         String typeName = (transaction.getType() != null) ? transaction.getType().getName().name() : "UNKNOWN";
 
         return TransactionDto.builder()
