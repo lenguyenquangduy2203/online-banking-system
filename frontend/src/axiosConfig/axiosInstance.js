@@ -10,11 +10,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    // Lấy token người dùng từ localStorage
     const userToken = localStorage.getItem('user_token');
     if (userToken) {
       config.headers['X-User-Api-Key'] = userToken;
     }
 
+    // Lấy token admin từ localStorage (nếu cần)
     const adminToken = localStorage.getItem('admin_token');
     if (adminToken) {
       config.headers['X-Admin-Api-Key'] = adminToken;

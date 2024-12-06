@@ -5,6 +5,7 @@ import './AccountCreation.css';
 const AccountCreationComponent = ({ userId }) => {
     const [pin, setPin] = useState('');
     const [accountType, setAccountType] = useState('TRANSACTION'); // Default to TRANSACTION
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -17,6 +18,9 @@ const AccountCreationComponent = ({ userId }) => {
         setAccountType(event.target.value);
     };
 
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
@@ -25,8 +29,7 @@ const AccountCreationComponent = ({ userId }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Kiểm tra các trường nhập liệu
-        if (!password || !pin) {
+        if (!email || !password || !pin) {
             setError('Please fill out all fields');
             return;
         }
@@ -36,6 +39,7 @@ const AccountCreationComponent = ({ userId }) => {
                 userId: userId,
                 type: accountType,
                 pin: pin,
+                email: email,
                 password: password,
             });
             
@@ -67,6 +71,16 @@ const AccountCreationComponent = ({ userId }) => {
                         type="password" 
                         value={pin} 
                         onChange={handlePinChange} 
+                        required 
+                    />
+                </div>
+
+                <div>
+                    <label>Email</label>
+                    <input 
+                        type="email" 
+                        value={email} 
+                        onChange={handleEmailChange} 
                         required 
                     />
                 </div>

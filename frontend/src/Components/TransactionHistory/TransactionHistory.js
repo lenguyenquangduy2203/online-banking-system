@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTransactionHistory } from "../../services/apiServices";
+import { getTransactionHistory } from "../../services/apiServices"; // Giả sử đây là API service của bạn
 import "./TransactionHistory.css";
 
 const TransactionHistory = ({ language }) => {
@@ -7,6 +7,7 @@ const TransactionHistory = ({ language }) => {
   const [error, setError] = useState("");
   const [filters, setFilters] = useState({});
 
+  // Lấy danh sách giao dịch
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -34,14 +35,20 @@ const TransactionHistory = ({ language }) => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction, index) => (
-            <tr key={index}>
-              <td>{transaction.date}</td>
-              <td>{transaction.type}</td>
-              <td>{transaction.amount}</td>
-              <td>{transaction.recipient}</td>
+          {transactions && transactions.length > 0 ? (
+            transactions.map((transaction, index) => (
+              <tr key={index}>
+                <td>{transaction.date}</td>
+                <td>{transaction.type}</td>
+                <td>{transaction.amount}</td>
+                <td>{transaction.recipient}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No transactions available.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

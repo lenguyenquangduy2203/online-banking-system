@@ -17,14 +17,6 @@ export const signIn = async (email, password) => {
   return response.data;
 };
 
-export const getAdminDashboardData = async () => {
-  return await axios.get(`${BASE_URL}/admin-dashboard`);
-};
-
-export const getUserDashboardData = async () => {
-  return await axios.get(`${BASE_URL}/user-dashboard`);
-};
-
 export const testAdminAuth = async () => {
   const response = await axiosInstance.get("/api/test/admin");
   return response.data;
@@ -35,23 +27,23 @@ export const testUserAuth = async () => {
   return response.data;
 };
 
-export const createAccount = async (userId, accountType, pin, password) => {
+export const createAccount = async (userId, accountType, pin, email, password) => {
   const response = await axiosInstance.post(`/api/users/${userId}/accounts`, {
     type: accountType,
     pin,
-    password,
+    email,
+    password
   });
   return response.data;
 };
-
 
 export const getRecentTransactions = async () => {
   const response = await axiosInstance.get("/api/transactions/recent");
   return response.data;
 };
-
-export const getTransactionSummary = (userId) => {
-  return axiosInstance.get(`/api/transactions/summary?userId=${userId}`);
+export const getTransactionSummary = async (userId) => {
+  const response = await axiosInstance.get(`/api/transactions/summary?userId=${userId}`);
+  return response.data;
 };
 
 export const getCards = async () => {
@@ -60,7 +52,13 @@ export const getCards = async () => {
 };
 
 export const makePayment = async (paymentData) => {
-  const response = await axiosInstance.post("/api/payments", paymentData);
+  const response = await axiosInstance.post("/api/payments", {
+    fromAccountId: paymentData.fromAccountId,
+    toAccountId: paymentData.toAccountId,
+    amount: paymentData.amount,
+    pin: paymentData.pin,
+    type: paymentData.type,
+  });
   return response.data;
 };
 
@@ -69,6 +67,4 @@ export const getTransactionHistory = async (filters) => {
     params: filters,
   });
   return response.data;
-
-  
 };

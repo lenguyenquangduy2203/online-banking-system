@@ -61,7 +61,6 @@ function App() {
                     <Route path="/payments" element={<Payments language={language} />} />
                     <Route path="/transactionhistory" element={<TransactionHistory language={language} />} />
                     <Route path="/setting" element={<Setting onLanguageChange={handleLanguageChange} />} />
-                    {/* Chỉ thêm route Create Account cho User */}
                     {userRole === "user" && <Route path="/create-account" element={<AccountCreationComponent userId="123" />} />}
                   </Routes>
                 </DashboardLayout>
