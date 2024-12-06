@@ -35,6 +35,16 @@ export const testUserAuth = async () => {
   return response.data;
 };
 
+export const createAccount = async (userId, accountType, pin, password) => {
+  const response = await axiosInstance.post(`/api/users/${userId}/accounts`, {
+    type: accountType,
+    pin,
+    password,
+  });
+  return response.data;
+};
+
+
 export const getRecentTransactions = async () => {
   const response = await axiosInstance.get("/api/transactions/recent");
   return response.data;

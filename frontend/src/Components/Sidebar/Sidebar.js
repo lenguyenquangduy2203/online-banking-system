@@ -1,51 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { getTransactionHistory } from "../../services/apiServices";
-import "./TransactionHistory.css";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "./Sidebar.css";
 
-const TransactionHistory = ({ language }) => {
-  const [transactions, setTransactions] = useState([]);
-  const [error, setError] = useState("");
-  const [filters, setFilters] = useState({});
-
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const data = await getTransactionHistory(filters);
-        setTransactions(data);
-      } catch (err) {
-        setError("Failed to load transaction history.");
-      }
+function Sidebar({ language, userRole }) {
+  const getText = (key) => {
+    const text = {
+      en: {
+        overview: "Overview",
+        cards: "Cards",
+        payments: "Payments",
+        transactionHistory: "Transaction History",
+        setting: "Setting",
+        adminDashboard: "Admin Dashboard",
+        createAccount: "Create Account",
+        logOut: "Log out",
+      },
+      vn: {
+        overview: "Tổng quan",
+        cards: "Thẻ",
+        payments: "Thanh toán",
+        transactionHistory: "Lịch sử giao dịch",
+        setting: "Cài đặt",
+        adminDashboard: "Bảng điều khiển Admin",
+        createAccount: "Tạo tài khoản",
+        logOut: "Đăng xuất",
+      },
     };
-
-    fetchTransactions();
-  }, [filters]);
+    return text[language][key];
+  };
 
   return (
-    <div className="transaction-history">
-      <h3>{language === "en" ? "Transaction History" : "Lịch Sử Giao Dịch"}</h3>
-      {error && <p className="error-message">{error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Recipient</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((transaction, index) => (
-            <tr key={index}>
-              <td>{transaction.date}</td>
-              <td>{transaction.type}</td>
-              <td>{transaction.amount}</td>
-              <td>{transaction.recipient}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="sidebar">
+      <ul>
+        {userRole === "admin" ? (
+          <>
+            <li>
+              <NavLink to="/">{getText("adminDashboard")}</NavLink>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <NavLink to="/overview">{getText("overview")}</NavLink>
+            </li>
+            <li>
+              <NavLink to="/cards">{getText("cards")}</NavLink>
+            </li>
+            <li>
+              <NavLink to="/payments">{getText("payments")}</NavLink>
+            </li>
+            <li>
+              <NavLink to="/transactionhistory">{getText("transactionHistory")}</NavLink>
+            </li>
+            {/*User*/}
+            <li>
+              <NavLink to="/create-account">{getText("createAccount")}</NavLink>
+            </li>
+          </>
+        )}
+        <li>
+          <NavLink to="/setting">{getText("setting")}</NavLink>
+        </li>
+        <li>
+          <NavLink to="/auth">{getText("logOut")}</NavLink>
+        </li>
+      </ul>
     </div>
   );
-};
+}
 
-export default TransactionHistory;
+export default Sidebar;

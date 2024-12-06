@@ -1,10 +1,10 @@
 package edu._2_30_online_banking_system_database.backend.payload;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 public record AccountDetails(
     Long id,
-    Date createdDate,
+    LocalDateTime createdDate,
     Long customerId,
     String type
 ) {}

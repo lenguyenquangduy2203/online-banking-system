@@ -1,6 +1,8 @@
 package edu._2_30_online_banking_system_database.backend.models;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,8 +28,8 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double amount;
-    private Timestamp createdDate;
+    private BigDecimal amount;
+    private LocalDate createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     private Account fromAccount;
