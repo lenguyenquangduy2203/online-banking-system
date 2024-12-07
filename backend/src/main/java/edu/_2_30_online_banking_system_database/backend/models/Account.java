@@ -1,8 +1,6 @@
 package edu._2_30_online_banking_system_database.backend.models;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
+import java.sql.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,18 +26,13 @@ import lombok.Setter;
 @Setter
 @Builder
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Double balance;
+    private Date createdDate;
 
-    @Column(nullable = false)
-    private BigDecimal balance;
-
-    @Column(nullable = false)
-    private LocalDateTime createdDate;
-
-    @Column(nullable = false)
+    @Column
     private String pin;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,13 +40,4 @@ public class Account {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private AccountType type;
-
-    public String getAccountDetails() {
-        return String.format(
-            "Account ID: %d, Balance: %.2f, Type: %s",
-            id,
-            balance != null ? balance : BigDecimal.ZERO,
-            type != null && type.getName() != null ? type.getName().name() : "N/A"
-        );
-    }
 }

@@ -25,6 +25,6 @@ public class AccountType {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private EAccountType name;
 }

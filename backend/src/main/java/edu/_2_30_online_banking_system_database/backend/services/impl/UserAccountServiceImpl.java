@@ -1,6 +1,6 @@
 package edu._2_30_online_banking_system_database.backend.services.impl;
 
-import java.math.BigDecimal;
+import java.sql.Date;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -30,34 +30,27 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public AccountDto createAccountForUser(Long userId, EAccountType type, String pin) {
         String encodedPin;
-        
         if (Boolean.TRUE.equals(pinService.isValidPin(pin))) {
             encodedPin = pinService.encodePin(pin);
         } else {
             throw new InvalidPinException("Pin must contains 4 to 6 digits.");
         }
-    
         AccountType accountType = accountTypeRepository.findByName(type)
             .orElseThrow(() -> new InvalidAccountTypeException("Account type is not exist."));
-        
         Customer user = customerRepository.findById(userId)
             .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with id: " + userId));
-        
-    
         Account account = Account.builder()
-            .balance(new BigDecimal("50000"))
-            .createdDate(new java.sql.Timestamp(System.currentTimeMillis()).toLocalDateTime())
-            .pin(encodedPin)
-            .customer(user)
-            .type(accountType)
-            .build();
-        
+                                .balance(0.0)
+                                .createdDate(new Date(System.currentTimeMillis()))
+                                .pin(encodedPin)
+                                .customer(user)
+                                .type(accountType)
+                                .build();
         Account savedAccount = accountRepository.save(account);
-    
         return new AccountDto(
             savedAccount.getId(),
             savedAccount.getBalance(),
-            savedAccount.getCreatedDate().toLocalDate(),
+            savedAccount.getCreatedDate(),
             savedAccount.getCustomer().getId(),
             savedAccount.getType().getName().toString()
         );

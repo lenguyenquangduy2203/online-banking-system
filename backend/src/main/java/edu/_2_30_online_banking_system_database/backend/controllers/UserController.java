@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu._2_30_online_banking_system_database.backend.exceptions.InvalidAccountTypeException;
 import edu._2_30_online_banking_system_database.backend.models.EAccountType;
 import edu._2_30_online_banking_system_database.backend.payload.AccountDto;
 import edu._2_30_online_banking_system_database.backend.payload.TransactionDto;
@@ -41,51 +42,23 @@ public class UserController {
         String email = payload.get("email");
         String password = payload.get("password");
         LoginDto loginDto = new LoginDto(email, password);
-        
-        // Đăng nhập người dùng
         customerService.signIn(loginDto);
-
         String pin = payload.get("pin");
         String accountType = payload.get("type").toUpperCase();
-        
-        // Kiểm tra loại tài khoản có hợp lệ không
-        EAccountType accountEnumType;
         try {
-            accountEnumType = EAccountType.valueOf(accountType);
+            AccountDto savedAccount = userAccountService
+                .createAccountForUser(id, EAccountType.valueOf(accountType), pin);   
+            return new ResponseEntity<>(
+                new ApiResponse<>(
+                    "created",
+                    "your account has been created",
+                    LocalDateTime.now(),
+                    savedAccount
+                ),
+                HttpStatus.CREATED
+            );  
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>( 
-                new ApiResponse<>("error", "Invalid account type provided. Please choose a valid account type.", LocalDateTime.now(), null), 
-                HttpStatus.BAD_REQUEST 
-            );
-        }
-
-        // Kiểm tra PIN hợp lệ
-        if (pin == null || !pin.matches("\\d{4,6}")) {
-            return new ResponseEntity<>( 
-                new ApiResponse<>("error", "PIN must be 4 to 6 digits.", LocalDateTime.now(), null), 
-                HttpStatus.BAD_REQUEST 
-            );
-        }
-
-        try {
-            // Tạo tài khoản và đặt số dư ban đầu là 50,000
-            AccountDto savedAccount = userAccountService.createAccountForUser(id, accountEnumType, pin);
-            savedAccount.setBalance(new BigDecimal(50000)); // Đặt số dư mặc định là 50,000
-
-            return new ResponseEntity<>( 
-                new ApiResponse<>( 
-                    "created", 
-                    "Your account has been created successfully.", 
-                    LocalDateTime.now(), 
-                    savedAccount 
-                ), 
-                HttpStatus.CREATED 
-            );
-        } catch (Exception e) {
-            return new ResponseEntity<>( 
-                new ApiResponse<>("error", "Failed to create account. Please try again.", LocalDateTime.now(), null), 
-                HttpStatus.INTERNAL_SERVER_ERROR 
-            );
+            throw new InvalidAccountTypeException("Account type: "+accountType+" is not exist.");
         }
     }
 

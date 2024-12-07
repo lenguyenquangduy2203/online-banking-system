@@ -39,12 +39,11 @@ public class DashboardServiceImpl implements DashboardService {
         );
         List<TransactionDto> latestTransactions = transactionService
             .getTransactionPageOrderByDescCreatedDate(user.getId(), 0, 1);
-        
         for (Account account : accounts) {
             censoredAccounts.add(new AccountDto(
                 account.getId(),
                 account.getBalance(),
-                account.getCreatedDate().toLocalDate(),
+                account.getCreatedDate(),
                 user.getId(),
                 account.getType().getName().toString()
             ));

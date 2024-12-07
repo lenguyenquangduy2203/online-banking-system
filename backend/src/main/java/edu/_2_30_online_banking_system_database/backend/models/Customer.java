@@ -36,5 +36,5 @@ public class Customer {
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Role role; // Sử dụng Enum Role cho trường role
+    private Role role;
 }
