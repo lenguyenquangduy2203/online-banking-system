@@ -1,40 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./TransactionSummary.css";
-import axiosInstance from "../axiosConfig/axiosInstance";
+
+// Dữ liệu tóm tắt giao dịch với các giá trị cho từng ngôn ngữ
+const summaryData = {
+  en: [
+    { label: "This month's income", value: "10,000,000 VND" },
+    { label: "This month's expenses", value: "5,000,000 VND" },
+    { label: "Remaining balance", value: "5,000,000 VND" },
+    { label: "Savings", value: "2,000,000 VND" },
+  ],
+  vn: [
+    { label: "Thu nhập tháng này", value: "10,000,000 VND" },
+    { label: "Chi tiêu tháng này", value: "5,000,000 VND" },
+    { label: "Số dư còn lại", value: "5,000,000 VND" },
+    { label: "Tiết kiệm", value: "2,000,000 VND" },
+  ]
+};
 
 function TransactionSummary({ language }) {
-  const [summaryData, setSummaryData] = useState({
-    income: "",
-    expenses: "",
-    remainingBalance: "",
-    savings: "",
-  });
-
-  useEffect(() => {
-    axiosInstance.get("/api/transaction-summary")
-      .then((response) => setSummaryData(response.data))
-      .catch((error) => console.error("Error fetching transaction summary:", error));
-  }, []);
-
   return (
     <div className="transaction-summary">
-      <h3>{language === "en" ? "Transaction Summary" : "Tóm tắt giao dịch"}</h3>
-      <div className="summary-item">
-        <p>{language === "en" ? "This month's income" : "Thu nhập tháng này"}:</p>
-        <span>{summaryData.income}</span>
-      </div>
-      <div className="summary-item">
-        <p>{language === "en" ? "This month's expenses" : "Chi tiêu tháng này"}:</p>
-        <span>{summaryData.expenses}</span>
-      </div>
-      <div className="summary-item">
-        <p>{language === "en" ? "Remaining balance" : "Số dư còn lại"}:</p>
-        <span>{summaryData.remainingBalance}</span>
-      </div>
-      <div className="summary-item">
-        <p>{language === "en" ? "Savings" : "Tiết kiệm"}:</p>
-        <span>{summaryData.savings}</span>
-      </div>
+      <h3>{language === 'en' ? "Transaction Summary" : "Tóm tắt giao dịch"}</h3>
+      {summaryData[language].map((item, index) => (
+        <div key={index} className="summary-item">
+          <p>{item.label}:</p>
+          <span>{item.value}</span>
+        </div>
+      ))}
     </div>
   );
 }

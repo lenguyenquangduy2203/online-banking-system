@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Auth.css";
+import { signIn, signUp } from "../../services/apiServices";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from '../../axiosConfig/axiosInstance';
 
 const Auth = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -22,11 +22,7 @@ const Auth = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post("/api/auth/sign-up", {
-        username: username,
-        email: email,
-        password: password,
-      });
+      const response = await signUp(username, email, password)
       console.log(response);
       alert("Registration successful! Please sign in.");
       setIsSignIn(true);
@@ -39,14 +35,11 @@ const Auth = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post("http://localhost:8080/api/auth/sign-in", {
-        email: email, 
-        password: password
-      });
+      const response = await signIn(email, password);
       console.log(response);
       localStorage.setItem("user_token", response.data.data.token);
       alert("Login successful!");
-      navigate("/settings");
+      navigate("/");
       setError("");
     } catch (err) {
       console.error("Sign In Error: ", err);

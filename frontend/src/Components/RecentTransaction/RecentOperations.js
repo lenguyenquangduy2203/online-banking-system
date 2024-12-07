@@ -26,8 +26,7 @@ function RecentOperations({ language, getText }) {
   if (!transactions || transactions.length === 0) {
     return (
       <div className="recent-operations">
-        <h3>{language === "en" ? "Recent Transactions" : "Giao Dịch Gần đây"}</h3>
-        <p>{getText("noTransactions")}</p>
+        <h3>{getText("noTransactions")}</h3>
       </div>
     );
   }

@@ -3,28 +3,19 @@ import "./Setting.css";
 
 const Setting = ({ onLanguageChange }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("vn");
-  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language") || "vn";
-    const savedTheme = localStorage.getItem("theme") || "light";
+    console.log("Saved language from localStorage:", savedLanguage);
     setSelectedLanguage(savedLanguage);
-    setTheme(savedTheme);
-    document.body.setAttribute("data-theme", savedTheme);
   }, []);
 
-  const handleChangeLanguage = (e) => {
+  const handleChange = (e) => {
     const newLanguage = e.target.value;
+    console.log("Language changed to:", newLanguage);
     setSelectedLanguage(newLanguage);
     onLanguageChange(newLanguage);
     localStorage.setItem("language", newLanguage);
-  };
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    document.body.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
   };
 
   return (
@@ -35,17 +26,11 @@ const Setting = ({ onLanguageChange }) => {
         <select
           id="language"
           value={selectedLanguage}
-          onChange={handleChangeLanguage}
+          onChange={handleChange}
         >
           <option value="en">English</option>
           <option value="vn">Vietnamese</option>
         </select>
-      </div>
-      <div className="theme-setting">
-        <label>Theme:</label>
-        <button onClick={toggleTheme}>
-          {theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
-        </button>
       </div>
     </div>
   );
