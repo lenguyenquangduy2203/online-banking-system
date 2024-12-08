@@ -7,7 +7,7 @@ const Payment = () => {
   const [toAccountId, setToAccountId] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
-  const [type, setType] = useState("top-up");
+  const [type, setType] = useState("deposit");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,9 +67,9 @@ const Payment = () => {
           onChange={(e) => setPin(e.target.value)}
         />
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="top-up">Top-Up</option>
+          <option value="deposit">Deposit</option>
+          <option value="withdraw">Withdraw</option>
           <option value="transfer">Transfer</option>
-          <option value="pay-bill">Pay Bill</option>
         </select>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Processing..." : "Submit"}
