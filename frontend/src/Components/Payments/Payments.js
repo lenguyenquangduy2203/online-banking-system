@@ -7,7 +7,7 @@ const Payment = () => {
   const [toAccountId, setToAccountId] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
-  const [type, setType] = useState("deposit");
+  const [type, setType] = useState("top-up");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,10 +16,13 @@ const Payment = () => {
     setIsLoading(true);
     setError("");
 
+    const fromAccount = fromAccountId.trim() === "" ? null : fromAccountId;
+    const toAccount = toAccountId.trim() === "" ? null : toAccountId;
+
     try {
       const paymentData = {
-        fromAccountId,
-        toAccountId: type === "transfer" ? toAccountId : null,
+        fromAccountId: fromAccount,
+        toAccountId: toAccount,
         amount,
         pin,
         type,
@@ -45,14 +48,12 @@ const Payment = () => {
           value={fromAccountId}
           onChange={(e) => setFromAccountId(e.target.value)}
         />
-        {type === "transfer" && (
-          <input
-            type="text"
-            placeholder="To Account ID"
-            value={toAccountId}
-            onChange={(e) => setToAccountId(e.target.value)}
-          />
-        )}
+        <input
+          type="text"
+          placeholder="To Account ID"
+          value={toAccountId}
+          onChange={(e) => setToAccountId(e.target.value)}
+        />
         <input
           type="number"
           placeholder="Amount"
@@ -66,9 +67,9 @@ const Payment = () => {
           onChange={(e) => setPin(e.target.value)}
         />
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="deposit">Deposit</option>
-          <option value="withdrawal">Withdrawal</option>
+          <option value="top-up">Top-Up</option>
           <option value="transfer">Transfer</option>
+          <option value="pay-bill">Pay Bill</option>
         </select>
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Processing..." : "Submit"}
