@@ -16,8 +16,17 @@ const Payment = () => {
     setIsLoading(true);
     setError("");
 
-    const fromAccount = fromAccountId.trim() === "" ? null : fromAccountId;
-    const toAccount = toAccountId.trim() === "" ? null : toAccountId;
+    let fromAccount = null;
+    let toAccount = null;
+
+    if (type === "deposit") {
+      toAccount = toAccountId.trim() === "" ? null : toAccountId;
+    } else if (type === "withdraw") {
+      fromAccount = fromAccountId.trim() === "" ? null : fromAccountId;
+    } else if (type === "transfer") {
+      fromAccount = fromAccountId.trim() === "" ? null : fromAccountId;
+      toAccount = toAccountId.trim() === "" ? null : toAccountId;
+    }
 
     try {
       const paymentData = {
