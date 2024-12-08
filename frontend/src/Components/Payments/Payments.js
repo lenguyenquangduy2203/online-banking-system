@@ -43,18 +43,18 @@ const Payment = () => {
 
       let updatedAccounts = [...accounts];
       if (type === "deposit" && toAccount) {
-        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === toAccount);
+        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(toAccount));
         if (toAccountIndex !== -1) {
           updatedAccounts[toAccountIndex].balance += parseFloat(amount);
         }
       } else if (type === "withdrawal" && fromAccount) {
-        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === fromAccount);
+        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(fromAccount));
         if (fromAccountIndex !== -1) {
           updatedAccounts[fromAccountIndex].balance -= parseFloat(amount);
         }
       } else if (type === "transfer" && fromAccount && toAccount) {
-        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === fromAccount);
-        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === toAccount);
+        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(fromAccount));
+        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(toAccount));
         if (fromAccountIndex !== -1 && toAccountIndex !== -1) {
           updatedAccounts[fromAccountIndex].balance -= parseFloat(amount);
           updatedAccounts[toAccountIndex].balance += parseFloat(amount);
