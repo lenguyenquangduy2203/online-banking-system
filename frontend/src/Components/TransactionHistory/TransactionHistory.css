@@ -1,54 +1,74 @@
 .transaction-history {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Tiêu đề */
-  .transaction-history h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  /* Bộ lọc giao dịch */
-  .filters {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .filters select,
-  .filters input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Bảng giao dịch */
-  .transaction-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .transaction-table th,
-  .transaction-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  .transaction-table th {
-    background-color: #f4f4f4;
-  }
-  
-  .transaction-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .transaction-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.transaction-history h2 {
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #333;
+  font-weight: 700;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.filters select,
+.filters input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  width: 200px;
+  transition: border 0.3s ease;
+}
+
+.filters select:focus,
+.filters input:focus {
+  border-color: #6c63ff;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+.transaction-table th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.transaction-table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.transaction-table td {
+  font-size: 14px;
+  color: #555;
+}

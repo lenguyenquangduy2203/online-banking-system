@@ -33,7 +33,11 @@ const TransactionHistory = ({ language }) => {
     setIsLoading(true);
     try {
       const userId = JSON.parse(localStorage.getItem("customer")).id;
-      const transactionData = await getTransactionHistory(userId, page, 10);
+      const transactionData = await getTransactionHistory({
+        userId,
+        page,
+      });
+
       if (page === 0) {
         setTransactions(transactionData);
       } else {
@@ -86,7 +90,6 @@ const TransactionHistory = ({ language }) => {
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
       {transactions.length > 0 && transactions.length % 10 === 0 && !isLoading && (
         <button
           onClick={() => setCurrentPage((prevPage) => prevPage + 1)}

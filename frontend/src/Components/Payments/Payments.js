@@ -1,153 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { makePayment } from "../../services/apiServices";
 import "./Payments.css";
-import axios from "axios";
 
-const Payments = ({ language, apiKey }) => {
-  const translations = {
-    en: {
-      title: "Payments",
-      noPayments: "No payments available.",
-      error: "Failed to load payment data.",
-      form: {
-        recipient: "Recipient Account",
-        amount: "Amount",
-        notes: "Notes (optional)",
-        submit: "Submit Payment",
-        pin: "PIN",
-      },
-    },
-    vn: {
-      title: "Thanh Toán",
-      noPayments: "Không có dữ liệu thanh toán.",
-      error: "Không thể tải dữ liệu thanh toán.",
-      form: {
-        recipient: "Tài Khoản Người Nhận",
-        amount: "Số Tiền",
-        notes: "Ghi Chú (không bắt buộc)",
-        submit: "Xác Nhận Thanh Toán",
-        pin: "Mã PIN",
-      },
-    },
-  };
-
-  const text = translations[language] || translations.en;
-
+const Payment = () => {
+  const [fromAccountId, setFromAccountId] = useState("");
+  const [toAccountId, setToAccountId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [pin, setPin] = useState("");
+  const [type, setType] = useState("top-up");
   const [error, setError] = useState("");
-  const [payments, setPayments] = useState([]);
-  const [formData, setFormData] = useState({
-    fromAccountId: "",
-    toAccountId: "",
-    amount: "",
-    pin: "",
-    type: "TRANSFER",
-    notes: "",
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handlePaymentSubmit = async (e) => {
+  const handlePayment = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/transactions",
-        formData,
-        {
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-          },
-        }
-      );
-      if (response.data.status === "success") {
-        alert("Payment successful!");
-        setPayments((prevPayments) => [...prevPayments, formData]);
-        setFormData({
-          fromAccountId: "",
-          toAccountId: "",
-          amount: "",
-          pin: "",
-          type: "TRANSFER",
-          notes: "",
-        });
-      } else {
-        setError("Payment failed. Please try again.");
-      }
+      const paymentData = {
+        fromAccountId,
+        toAccountId,
+        amount,
+        pin,
+        type,
+      };
+
+      const response = await makePayment(paymentData);
+      console.log("Payment successful:", response);
     } catch (err) {
-      setError("Payment failed. Please try again.");
+      setError("Failed to make the payment. Please try again.");
+      console.error("Payment failed:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/users/2/transactions",
-          {
-            headers: {
-              "Authorization": `Bearer ${apiKey}`,
-            },
-          }
-        );
-        if (response.data.status === "success") {
-          setPayments(response.data.data);
-        }
-      } catch (err) {
-        setError(text.error);
-      }
-    };
-
-    fetchPayments();
-  }, [text.error, apiKey]);
-
   return (
-    <div className="payments">
-      <h3>{text.title}</h3>
-      {error && <p className="error-message">{error}</p>}
-      {!error && payments.length === 0 && <p>{text.noPayments}</p>}
-      <form onSubmit={handlePaymentSubmit}>
+    <div className="payment">
+      <h3>Payment</h3>
+      <form onSubmit={handlePayment}>
         <input
           type="text"
-          name="fromAccountId"
-          placeholder={text.form.recipient}
-          value={formData.fromAccountId}
-          onChange={handleChange}
+          placeholder="From Account ID"
+          value={fromAccountId}
+          onChange={(e) => setFromAccountId(e.target.value)}
         />
         <input
           type="text"
-          name="toAccountId"
-          placeholder={text.form.recipient}
-          value={formData.toAccountId}
-          onChange={handleChange}
+          placeholder="To Account ID"
+          value={toAccountId}
+          onChange={(e) => setToAccountId(e.target.value)}
         />
         <input
           type="number"
-          name="amount"
-          placeholder={text.form.amount}
-          value={formData.amount}
-          onChange={handleChange}
-        />
-        <textarea
-          name="notes"
-          placeholder={text.form.notes}
-          value={formData.notes}
-          onChange={handleChange}
+          placeholder="Amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
         />
         <input
           type="password"
-          name="pin"
-          placeholder={text.form.pin}
-          value={formData.pin}
-          onChange={handleChange}
+          placeholder="PIN"
+          value={pin}
+          onChange={(e) => setPin(e.target.value)}
         />
-        <button type="submit">{text.form.submit}</button>
+        <select value={type} onChange={(e) => setType(e.target.value)}>
+          <option value="top-up">Top-Up</option>
+          <option value="transfer">Transfer</option>
+          <option value="pay-bill">Pay Bill</option>
+        </select>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Processing..." : "Submit"}
+        </button>
       </form>
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };
 
-export default Payments;
+export default Payment;

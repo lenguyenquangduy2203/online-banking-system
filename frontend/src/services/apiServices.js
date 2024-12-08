@@ -37,10 +37,8 @@ export const createAccount = async (userId, accountType, pin, email, password) =
   return response.data;
 };
 
-export const getTransactionHistory = async (userId, page = 0, size = 5) => {
-  const response = await axiosInstance.get(`/api/users/${userId}/transactions`, {
-    params: { page, size },
-  });
+export const getRecentTransactions = async () => {
+  const response = await axiosInstance.get("/api/transactions/recent");
   return response.data;
 };
 
@@ -55,12 +53,20 @@ export const getCards = async () => {
 };
 
 export const makePayment = async (paymentData) => {
+  const user = JSON.parse(localStorage.getItem("customer"));
   const response = await axiosInstance.post("/api/transactions", {
     fromAccountId: paymentData.fromAccountId,
     toAccountId: paymentData.toAccountId,
     amount: paymentData.amount,
     pin: paymentData.pin,
     type: paymentData.type,
+  });
+  return response.data;
+};
+
+export const getTransactionHistory = async (filters) => {
+  const response = await axiosInstance.get("/api/transactions/history", {
+    params: filters,
   });
   return response.data;
 };

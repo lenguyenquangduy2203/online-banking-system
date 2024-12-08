@@ -26,9 +26,15 @@ const TransactionSummary = ({ language, userId }) => {
 
   useEffect(() => {
     const fetchSummary = async () => {
+      setLoading(true);
+      setError("");  // Reset error state when fetching
       try {
         const response = await getTransactionSummary(userId);
-        setSummaryData(response);
+        if (response && response.length > 0) {
+          setSummaryData(response);
+        } else {
+          setSummaryData([]);
+        }
       } catch (err) {
         setError(text.error);
       } finally {
@@ -36,7 +42,9 @@ const TransactionSummary = ({ language, userId }) => {
       }
     };
 
-    fetchSummary();
+    if (userId) {
+      fetchSummary();
+    }
   }, [userId, text.error]);
 
   return (
@@ -45,13 +53,16 @@ const TransactionSummary = ({ language, userId }) => {
       {loading && <p>{text.loading}</p>}
       {error && <p className="error-message">{error}</p>}
       {!loading && summaryData.length === 0 && <p>{text.noData}</p>}
-      {summaryData.length > 0 &&
-        summaryData.map((item, index) => (
-          <div key={index} className="summary-item">
-            <p>{language === "en" ? item.labelEn : item.labelVn}:</p>
-            <span>{item.value}</span>
-          </div>
-        ))}
+      {!loading && summaryData.length > 0 && (
+        <div className="summary-list">
+          {summaryData.map((item, index) => (
+            <div key={index} className="summary-item">
+              <p>{language === "en" ? item.labelEn : item.labelVn}:</p>
+              <span>{item.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
