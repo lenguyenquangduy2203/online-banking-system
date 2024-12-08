@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig/axiosInstance';
 import './AccountCreation.css';
 
 const AccountCreationComponent = ({ userId }) => {
@@ -9,6 +9,7 @@ const AccountCreationComponent = ({ userId }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const customer = JSON.parse(localStorage.getItem("customer"));
 
     const handlePinChange = (event) => {
         setPin(event.target.value);
@@ -35,8 +36,7 @@ const AccountCreationComponent = ({ userId }) => {
         }
 
         try {
-            const response = await axios.post(`/api/users/${userId}/accounts`, {
-                userId: userId,
+            const response = await axiosInstance.post(`/api/users/${customer.id}/accounts`, {
                 type: accountType,
                 pin: pin,
                 email: email,
@@ -44,7 +44,10 @@ const AccountCreationComponent = ({ userId }) => {
             });
             
 
-            setSuccess(`Account created successfully with ID: ${response.data.id}`);
+            setSuccess(`Account created successfully with ID: ${response.data.data.id}`);
+            let accounts = JSON.parse(localStorage.getItem("accounts"));
+            accounts = [...accounts, response.data.data];
+            localStorage.setItem("accounts", JSON.stringify(accounts));
             setError('');
         } catch (err) {
             setError('Failed to create account. Please try again.');
@@ -60,7 +63,7 @@ const AccountCreationComponent = ({ userId }) => {
                     <label>Account Type</label>
                     <select value={accountType} onChange={handleAccountTypeChange}>
                         <option value="TRANSACTION">Transaction</option>
-                        <option value="SAVINGS">Savings</option>
+                        <option value="SAVING">Savings</option>
                         <option value="EMERGENCY">Checking</option>
                     </select>
                 </div>

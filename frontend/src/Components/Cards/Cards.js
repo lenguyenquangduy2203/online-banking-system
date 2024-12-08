@@ -1,11 +1,6 @@
+import { useEffect, useState } from "react";
 import React from "react";
 import "./Cards.css";
-
-const cardData = [
-  { balance: "35,450,200 VND", cardNumber: "4255 0102 0874 4345", type: "Visa" },
-  { balance: "50,027,050 VND", cardNumber: "**** 4588", type: "Mastercard" },
-  { balance: "20,000,000 VND", cardNumber: "**** 8908", type: "Visa" },
-];
 
 const Cards = ({ language }) => {
   const translations = {
@@ -21,6 +16,27 @@ const Cards = ({ language }) => {
 
   const text = translations[language] || translations.en;
 
+  // State to manage card data
+  const [cardData, setCardData] = useState(
+    JSON.parse(localStorage.getItem("accounts")) || []
+  );
+
+  // Effect to reload card data when `localStorage` changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedData = JSON.parse(localStorage.getItem("accounts")) || [];
+      setCardData(updatedData);
+    };
+
+    // Listen for `storage` events (if other tabs modify localStorage)
+    window.addEventListener("storage", handleStorageChange);
+
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   return (
     <div className="cards">
       <h3>{text.title}</h3>
@@ -31,7 +47,7 @@ const Cards = ({ language }) => {
               {text.balance}: {card.balance}
             </p>
             <p>
-              {card.type} - {card.cardNumber}
+              {card.type} - {card.id}
             </p>
           </div>
         ))}

@@ -11,15 +11,25 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Lấy token người dùng từ localStorage
-    const userToken = localStorage.getItem('user_token');
+    let userToken; 
+    try {
+      userToken = JSON.parse(localStorage.getItem('user_token'));
+    } catch (error) {
+      userToken = undefined;
+    }
     if (userToken) {
-      config.headers['X-User-Api-Key'] = userToken;
+      config.headers[userToken.header] = userToken.token;
     }
 
     // Lấy token admin từ localStorage (nếu cần)
-    const adminToken = localStorage.getItem('admin_token');
+    let adminToken; 
+    try {
+      adminToken = JSON.parse(localStorage.getItem('admin_token'));
+    } catch (error) {
+      adminToken = undefined;
+    }
     if (adminToken) {
-      config.headers['X-Admin-Api-Key'] = adminToken;
+      config.headers[adminToken.header] = adminToken.token;
     }
 
     return config;

@@ -37,7 +37,14 @@ const Auth = () => {
     try {
       const response = await signIn(email, password);
       console.log(response);
-      localStorage.setItem("user_token", response.data.data.token);
+      const customer = response.data.user || response.data.admin;
+      const apiKey = response.data.apiKey;
+      const transactions = response.data.transactions || [];
+      const accounts = response.data.accounts || [];
+      localStorage.setItem(customer.role === "ROLE_USER"? "user_token":"admin_token", JSON.stringify(apiKey));
+      localStorage.setItem("customer", JSON.stringify(customer));
+      localStorage.setItem("transactions", JSON.stringify(transactions));
+      localStorage.setItem("accounts", JSON.stringify(accounts));
       alert("Login successful!");
       navigate("/");
       setError("");
