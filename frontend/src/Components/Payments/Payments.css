@@ -36,3 +36,40 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+.payment form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.payment input,
+.payment select,
+.payment button {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.payment input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.payment button {
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.payment button:hover {
+  background-color: #5a53d4;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}

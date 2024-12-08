@@ -10,6 +10,7 @@ const Payment = () => {
   const [type, setType] = useState("deposit");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [accounts, setAccounts] = useState(JSON.parse(localStorage.getItem("accounts")) || []);
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ const Payment = () => {
 
     if (type === "deposit") {
       toAccount = toAccountId.trim() === "" ? null : toAccountId;
-    } else if (type === "withdraw") {
+    } else if (type === "withdrawal") {
       fromAccount = fromAccountId.trim() === "" ? null : fromAccountId;
     } else if (type === "transfer") {
       fromAccount = fromAccountId.trim() === "" ? null : fromAccountId;
@@ -39,6 +40,30 @@ const Payment = () => {
 
       const response = await makePayment(paymentData);
       console.log("Payment successful:", response);
+
+      let updatedAccounts = [...accounts];
+      if (type === "deposit" && toAccount) {
+        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === toAccount);
+        if (toAccountIndex !== -1) {
+          updatedAccounts[toAccountIndex].balance += parseFloat(amount);
+        }
+      } else if (type === "withdrawal" && fromAccount) {
+        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === fromAccount);
+        if (fromAccountIndex !== -1) {
+          updatedAccounts[fromAccountIndex].balance -= parseFloat(amount);
+        }
+      } else if (type === "transfer" && fromAccount && toAccount) {
+        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === fromAccount);
+        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === toAccount);
+        if (fromAccountIndex !== -1 && toAccountIndex !== -1) {
+          updatedAccounts[fromAccountIndex].balance -= parseFloat(amount);
+          updatedAccounts[toAccountIndex].balance += parseFloat(amount);
+        }
+      }
+
+      localStorage.setItem("accounts", JSON.stringify(updatedAccounts));
+      setAccounts(updatedAccounts);
+
     } catch (err) {
       setError("Failed to make the payment. Please try again.");
       console.error("Payment failed:", err);
@@ -77,7 +102,7 @@ const Payment = () => {
         />
         <select value={type} onChange={(e) => setType(e.target.value)}>
           <option value="deposit">Deposit</option>
-          <option value="withdraw">Withdraw</option>
+          <option value="withdrawal">Withdrawal</option>
           <option value="transfer">Transfer</option>
         </select>
         <button type="submit" disabled={isLoading}>
