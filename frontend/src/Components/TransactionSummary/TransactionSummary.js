@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { getTransactionSummary } from "../../services/apiServices";
 import "./TransactionSummary.css";
 
 const TransactionSummary = ({ language, userId }) => {
@@ -18,7 +19,7 @@ const TransactionSummary = ({ language, userId }) => {
   };
 
   const text = translations[language] || translations.en;
-  
+
   const [summaryData, setSummaryData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -26,8 +27,8 @@ const TransactionSummary = ({ language, userId }) => {
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const data = JSON.parse(localStorage.getItem(`summaryData_${userId}`)) || [];
-        setSummaryData(data);
+        const response = await getTransactionSummary(userId);
+        setSummaryData(response);
       } catch (err) {
         setError(text.error);
       } finally {
@@ -36,7 +37,7 @@ const TransactionSummary = ({ language, userId }) => {
     };
 
     fetchSummary();
-  }, [userId]);
+  }, [userId, text.error]);
 
   return (
     <div className="transaction-summary">
