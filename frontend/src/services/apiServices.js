@@ -52,7 +52,7 @@ export const getCards = async () => {
 };
 
 export const makePayment = async (paymentData) => {
-  const response = await axiosInstance.post("/api/payments", {
+  const response = await axiosInstance.post("/api/transacitons", {
     fromAccountId: paymentData.fromAccountId,
     toAccountId: paymentData.toAccountId,
     amount: paymentData.amount,
