@@ -1,8 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom"; // Thay useHistory thành useNavigate
 import "./Sidebar.css";
 
 function Sidebar({ language, userRole }) {
+  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
+
   const getText = (key) => {
     const text = {
       en: {
@@ -27,6 +29,12 @@ function Sidebar({ language, userRole }) {
       },
     };
     return text[language][key];
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+
+    navigate("/auth");
   };
 
   return (
@@ -62,7 +70,7 @@ function Sidebar({ language, userRole }) {
           <NavLink to="/setting">{getText("setting")}</NavLink>
         </li>
         <li>
-          <NavLink to="/auth">{getText("logOut")}</NavLink>
+          <button onClick={handleLogout}>{getText("logOut")}</button>
         </li>
       </ul>
     </div>
