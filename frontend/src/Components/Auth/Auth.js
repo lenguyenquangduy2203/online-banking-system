@@ -56,7 +56,6 @@ const Auth = () => {
 
   return (
     <div className={`auth-container ${isSignIn ? "" : "register"}`}>
-      {/* Welcome Section */}
       <div className="welcome-section">
         {isSignIn ? (
           <div className="welcome-content">
@@ -73,7 +72,6 @@ const Auth = () => {
         )}
       </div>
 
-      {/* Form Section */}
       <div className="form-section">
         {isSignIn ? (
           <div className="auth-form">
