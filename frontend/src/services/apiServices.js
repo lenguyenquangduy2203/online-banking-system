@@ -59,7 +59,7 @@ export const makePayment = async (paymentData) => {
     toAccountId: paymentData.toAccountId,
     amount: paymentData.amount,
     pin: paymentData.pin,
-    type: paymentData.type,
+    type: paymentData.type, //deposit //withdrawal //transfer
   });
   return response.data;
 };
