@@ -33,10 +33,7 @@ const TransactionHistory = ({ language }) => {
     setIsLoading(true);
     try {
       const userId = JSON.parse(localStorage.getItem("customer")).id;
-      const transactionData = await getTransactionHistory({
-        userId,
-        page,
-      });
+      const transactionData = await getTransactionHistory(userId, page, 10);
       if (page === 0) {
         setTransactions(transactionData);
       } else {

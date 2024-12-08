@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Payments.css";
-import { makePayment } from "../../services/apiServices";
+import axios from "axios";
 
-const Payments = ({ language }) => {
+const Payments = ({ language, apiKey }) => {
   const translations = {
     en: {
       title: "Payments",
@@ -13,8 +13,7 @@ const Payments = ({ language }) => {
         amount: "Amount",
         notes: "Notes (optional)",
         submit: "Submit Payment",
-        pin: "Enter PIN",
-        paymentType: "Payment Type",
+        pin: "PIN",
       },
     },
     vn: {
@@ -26,8 +25,7 @@ const Payments = ({ language }) => {
         amount: "Số Tiền",
         notes: "Ghi Chú (không bắt buộc)",
         submit: "Xác Nhận Thanh Toán",
-        pin: "Nhập PIN",
-        paymentType: "Loại Giao Dịch",
+        pin: "Mã PIN",
       },
     },
   };
@@ -41,15 +39,9 @@ const Payments = ({ language }) => {
     toAccountId: "",
     amount: "",
     pin: "",
-    type: "transfer",
+    type: "TRANSFER",
     notes: "",
   });
-
-  const paymentTypes = [
-    { value: "transfer", label: "Transfer" },
-    { value: "bill_payment", label: "Bill Payment" },
-    { value: "loan_payment", label: "Loan Payment" },
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,8 +54,16 @@ const Payments = ({ language }) => {
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await makePayment(formData);
-      if (response.success) {
+      const response = await axios.post(
+        "http://localhost:8080/api/transactions",
+        formData,
+        {
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+          },
+        }
+      );
+      if (response.data.status === "success") {
         alert("Payment successful!");
         setPayments((prevPayments) => [...prevPayments, formData]);
         setFormData({
@@ -71,7 +71,7 @@ const Payments = ({ language }) => {
           toAccountId: "",
           amount: "",
           pin: "",
-          type: "transfer",
+          type: "TRANSFER",
           notes: "",
         });
       } else {
@@ -85,15 +85,24 @@ const Payments = ({ language }) => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const data = JSON.parse(localStorage.getItem("payments")) || [];
-        setPayments(data);
+        const response = await axios.get(
+          "http://localhost:8080/api/users/2/transactions",
+          {
+            headers: {
+              "Authorization": `Bearer ${apiKey}`,
+            },
+          }
+        );
+        if (response.data.status === "success") {
+          setPayments(response.data.data);
+        }
       } catch (err) {
         setError(text.error);
       }
     };
 
     fetchPayments();
-  }, [text.error]);
+  }, [text.error, apiKey]);
 
   return (
     <div className="payments">
@@ -135,23 +144,6 @@ const Payments = ({ language }) => {
           value={formData.pin}
           onChange={handleChange}
         />
-
-        {/* Payment Type Selection */}
-        <div>
-          <label>{text.form.paymentType}:</label>
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-          >
-            {paymentTypes.map((type) => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <button type="submit">{text.form.submit}</button>
       </form>
     </div>
