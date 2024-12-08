@@ -13,6 +13,8 @@ const Payments = ({ language }) => {
         amount: "Amount",
         notes: "Notes (optional)",
         submit: "Submit Payment",
+        pin: "Enter PIN",
+        paymentType: "Payment Type",
       },
     },
     vn: {
@@ -24,6 +26,8 @@ const Payments = ({ language }) => {
         amount: "Số Tiền",
         notes: "Ghi Chú (không bắt buộc)",
         submit: "Xác Nhận Thanh Toán",
+        pin: "Nhập PIN",
+        paymentType: "Loại Giao Dịch",
       },
     },
   };
@@ -41,6 +45,12 @@ const Payments = ({ language }) => {
     notes: "",
   });
 
+  const paymentTypes = [
+    { value: "transfer", label: "Transfer" },
+    { value: "bill_payment", label: "Bill Payment" },
+    { value: "loan_payment", label: "Loan Payment" },
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -52,7 +62,7 @@ const Payments = ({ language }) => {
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await makePayment(formData); //
+      const response = await makePayment(formData);
       if (response.success) {
         alert("Payment successful!");
         setPayments((prevPayments) => [...prevPayments, formData]);
@@ -99,7 +109,7 @@ const Payments = ({ language }) => {
           onChange={handleChange}
         />
         <input
-          type="number"
+          type="text"
           name="toAccountId"
           placeholder={text.form.recipient}
           value={formData.toAccountId}
@@ -121,10 +131,27 @@ const Payments = ({ language }) => {
         <input
           type="password"
           name="pin"
-          placeholder="Enter PIN"
+          placeholder={text.form.pin}
           value={formData.pin}
           onChange={handleChange}
         />
+
+        {/* Payment Type Selection */}
+        <div>
+          <label>{text.form.paymentType}:</label>
+          <select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+          >
+            {paymentTypes.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <button type="submit">{text.form.submit}</button>
       </form>
     </div>
