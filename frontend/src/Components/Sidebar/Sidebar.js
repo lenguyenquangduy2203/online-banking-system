@@ -41,7 +41,7 @@ function Sidebar({ language, userRole }) {
         ) : (
           <>
             <li>
-              <NavLink to="/overview">{getText("overview")}</NavLink>
+              <NavLink to="/">{getText("userDashboard")}</NavLink>
             </li>
             <li>
               <NavLink to="/cards">{getText("cards")}</NavLink>

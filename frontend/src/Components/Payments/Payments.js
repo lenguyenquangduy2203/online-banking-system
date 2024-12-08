@@ -1,94 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Payments.css";
 
 const Payments = ({ language }) => {
   const translations = {
     en: {
       title: "Payments",
-      tabs: ["Transfers", "Payments"],
-      transferForm: {
-        title: "Transfer Money",
+      noPayments: "No payments available.",
+      error: "Failed to load payment data.",
+      form: {
         recipient: "Recipient Account",
         amount: "Amount",
         notes: "Notes (optional)",
-        submit: "Transfer",
-      },
-      paymentForm: {
-        title: "Pay a Bill",
-        select: "Select Bill",
-        amount: "Amount",
-        submit: "Pay",
+        submit: "Submit Payment",
       },
     },
     vn: {
       title: "Thanh Toán",
-      tabs: ["Chuyển Tiền", "Thanh Toán"],
-      transferForm: {
-        title: "Chuyển Tiền",
+      noPayments: "Không có dữ liệu thanh toán.",
+      error: "Không thể tải dữ liệu thanh toán.",
+      form: {
         recipient: "Tài Khoản Người Nhận",
         amount: "Số Tiền",
         notes: "Ghi Chú (không bắt buộc)",
-        submit: "Chuyển",
-      },
-      paymentForm: {
-        title: "Thanh Toán Hóa Đơn",
-        select: "Chọn Loại Hóa Đơn",
-        amount: "Số Tiền",
-        submit: "Thanh Toán",
+        submit: "Xác Nhận Thanh Toán",
       },
     },
   };
 
-  const text = translations[language] || translations.en;  // Apply correct language
+  const text = translations[language] || translations.en;
 
-  const [tab, setTab] = useState("transfers");
+  const [error, setError] = useState("");
+  const [payments, setPayments] = useState([]);
+
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const data = JSON.parse(localStorage.getItem("payments")) || [];
+        setPayments(data);
+      } catch (err) {
+        setError(text.error);
+      }
+    };
+
+    fetchPayments();
+  }, [text.error]);
 
   return (
     <div className="payments">
-      <h2>{text.title}</h2>
-      <div className="tabs">
-        {text.tabs.map((tabName, index) => (
-          <button
-            key={index}
-            className={tab === tabName.toLowerCase() ? "active" : ""}
-            onClick={() => setTab(tabName.toLowerCase())}
-          >
-            {tabName}
-          </button>
-        ))}
-      </div>
-
-      <div className="tab-content">
-        {tab === "transfers" && <Transfers text={text.transferForm} />}
-        {tab === "payments" && <PaymentsForm text={text.paymentForm} />}
-      </div>
+      <h3>{text.title}</h3>
+      {error && <p className="error-message">{error}</p>}
+      {!error && payments.length === 0 && <p>{text.noPayments}</p>}
+      <form>
+        <input type="text" placeholder={text.form.recipient} />
+        <input type="number" placeholder={text.form.amount} />
+        <textarea placeholder={text.form.notes} />
+        <button type="submit">{text.form.submit}</button>
+      </form>
     </div>
   );
 };
-
-const Transfers = ({ text }) => (
-  <div>
-    <h3>{text.title}</h3>
-    <form>
-      <input type="text" placeholder={text.recipient} />
-      <input type="number" placeholder={text.amount} />
-      <textarea placeholder={text.notes} />
-      <button type="submit">{text.submit}</button>
-    </form>
-  </div>
-);
-
-const PaymentsForm = ({ text }) => (
-  <div>
-    <h3>{text.title}</h3>
-    <form>
-      <select>
-        <option>{text.select}</option>
-      </select>
-      <input type="number" placeholder={text.amount} />
-      <button type="submit">{text.submit}</button>
-    </form>
-  </div>
-);
 
 export default Payments;

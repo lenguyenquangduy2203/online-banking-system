@@ -70,31 +70,31 @@ const AccountCreationComponent = ({ userId }) => {
 
                 <div>
                     <label>PIN</label>
-                    <input 
-                        type="password" 
-                        value={pin} 
-                        onChange={handlePinChange} 
-                        required 
+                    <input
+                        type="password"
+                        value={pin}
+                        onChange={handlePinChange}
+                        required
                     />
                 </div>
 
                 <div>
                     <label>Email</label>
-                    <input 
-                        type="email" 
-                        value={email} 
-                        onChange={handleEmailChange} 
-                        required 
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={handleEmailChange}
+                        required
                     />
                 </div>
 
                 <div>
                     <label>Password</label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={handlePasswordChange} 
-                        required 
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required
                     />
                 </div>
 

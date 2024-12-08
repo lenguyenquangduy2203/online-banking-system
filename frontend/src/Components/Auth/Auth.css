@@ -1,3 +1,4 @@
+/* Body and html reset */
 body, html {
     height: 100%;
     margin: 0;
@@ -7,6 +8,7 @@ body, html {
     background: #4c4cd9;
 }
 
+/* Auth container with transition */
 .auth-container {
     position: relative;
     top: 10%;
@@ -18,13 +20,15 @@ body, html {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.4s ease-in-out; /* Make the transition a bit smoother */
 }
 
+/* Auth container when register section is active */
 .auth-container.register {
-    transform: translateX(-50%);
+    transform: translateX(-1%); /* Reduce the movement */
 }
 
+/* Welcome section styles */
 .welcome-section {
     flex: 1.5;
     background: linear-gradient(120deg, #635dff, #4c4cd9);
@@ -35,40 +39,47 @@ body, html {
     color: white;
     padding: 50px;
     text-align: center;
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.4s ease-in-out;
 }
 
+/* When register is active, welcome section moves */
 .auth-container.register .welcome-section {
     order: 2;
-    transform: translateX(0);
+    transform: translateX(0); /* Keep the movement softer */
 }
 
+/* Form section styles */
 .form-section {
     flex: 1.2;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.4s ease-in-out;
 }
 
-
+/* When register is active, form section moves */
 .auth-container.register .form-section {
     order: 1;
     transform: translateX(0);
 }
 
+/* Auth form styles */
 .auth-form {
     width: 100%;
     max-width: 400px;
     padding: 30px;
 }
 
+/* Header styles */
 .auth-form h2 {
     margin-bottom: 20px;
     color: #4c4cd9;
+    font-size: 24px;
+    text-align: center;
 }
 
+/* Input group styles */
 .input-group {
     display: flex;
     align-items: center;
@@ -76,15 +87,31 @@ body, html {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Add transition */
 }
 
+/* Styles for input fields */
 input {
     width: 100%;
     border: none;
     outline: none;
     padding: 10px;
+    font-size: 16px;
 }
 
+/* Focus effect for input fields */
+.input-group input:focus {
+    border-color: #635dff;
+    box-shadow: 0 0 5px rgba(99, 93, 255, 0.5); /* Add subtle shadow when focused */
+}
+
+/* Placeholder text styles */
+input::placeholder {
+    color: #777;
+    font-size: 14px;
+}
+
+/* Button styles */
 button {
     width: 100%;
     padding: 12px;
@@ -93,15 +120,21 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: background 0.3s ease-in-out; /* Smooth button hover effect */
 }
 
+/* Button hover effect */
 button:hover {
     background: linear-gradient(120deg, #635dff, #4c4cd9);
 }
 
+/* Redirect link styles */
 .redirect-link {
     color: #4c4cd9;
     cursor: pointer;
+    display: block;
+    margin-top: 10px;
+    text-align: center;
 }
 
 .redirect-link:hover {

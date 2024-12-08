@@ -1,48 +1,44 @@
-// src/components/Dashboard/AdminDashboard.js
-import React, { useState, useEffect } from 'react';
-import { testAdminAuth } from '../../services/apiServices';
-import './AdminDashboard.css';
+import React, { useEffect, useState } from "react";
+import "./AdminDashboard.css";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ language }) => {
+  const translations = {
+    en: {
+      title: "Admin Dashboard",
+      noData: "No admin data available.",
+      error: "Failed to load admin data.",
+    },
+    vn: {
+      title: "Bảng Điều Khiển Quản Trị",
+      noData: "Không có dữ liệu quản trị.",
+      error: "Không thể tải dữ liệu quản trị.",
+    },
+  };
+
+  const text = translations[language] || translations.en;
   const [adminData, setAdminData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchAdminData = async () => {
-      try {
-        const response = await testAdminAuth();
-        setAdminData(response);
-      } catch (error) {
-        setError("Failed to load admin data");
-        console.error("Admin authorization failed:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAdminData();
-  }, []);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
+    try {
+      const data = JSON.parse(localStorage.getItem("adminData"));
+      setAdminData(data);
+    } catch (err) {
+      setError(text.error);
+    }
+  }, [text.error]);
 
   return (
     <div className="admin-dashboard">
-      <h2>Admin Dashboard</h2>
-      {adminData ? (
-        <div className="admin-info">
-          <p>Welcome, Admin {adminData.name}</p>
-          <p>Total Transactions: {adminData.totalTransactions || 0}</p>
-          <p>Registered Users: {adminData.totalUsers || 0}</p>
+      <h3>{text.title}</h3>
+      {error && <p className="error-message">{error}</p>}
+      {!error && !adminData && <p>{text.noData}</p>}
+      {adminData && (
+        <div>
+          <p>Name: {adminData.name}</p>
+          <p>Total Users: {adminData.totalUsers}</p>
+          <p>Total Transactions: {adminData.totalTransactions}</p>
         </div>
-      ) : (
-        <p>No data available</p>
       )}
     </div>
   );

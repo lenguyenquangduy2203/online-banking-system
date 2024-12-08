@@ -1,34 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./TransactionSummary.css";
 
-// Dữ liệu tóm tắt giao dịch với các giá trị cho từng ngôn ngữ
-const summaryData = {
-  en: [
-    { label: "This month's income", value: "10,000,000 VND" },
-    { label: "This month's expenses", value: "5,000,000 VND" },
-    { label: "Remaining balance", value: "5,000,000 VND" },
-    { label: "Savings", value: "2,000,000 VND" },
-  ],
-  vn: [
-    { label: "Thu nhập tháng này", value: "10,000,000 VND" },
-    { label: "Chi tiêu tháng này", value: "5,000,000 VND" },
-    { label: "Số dư còn lại", value: "5,000,000 VND" },
-    { label: "Tiết kiệm", value: "2,000,000 VND" },
-  ]
-};
+const TransactionSummary = ({ language, userId }) => {
+  const translations = {
+    en: {
+      title: "Transaction Summary",
+      loading: "Loading...",
+      error: "Error loading summary.",
+      noData: "No data available.",
+    },
+    vn: {
+      title: "Tóm tắt giao dịch",
+      loading: "Đang tải...",
+      error: "Lỗi khi tải dữ liệu.",
+      noData: "Không có dữ liệu.",
+    },
+  };
 
-function TransactionSummary({ language }) {
+  const text = translations[language] || translations.en;
+  
+  const [summaryData, setSummaryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const data = JSON.parse(localStorage.getItem(`summaryData_${userId}`)) || [];
+        setSummaryData(data);
+      } catch (err) {
+        setError(text.error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSummary();
+  }, [userId]);
+
   return (
     <div className="transaction-summary">
-      <h3>{language === 'en' ? "Transaction Summary" : "Tóm tắt giao dịch"}</h3>
-      {summaryData[language].map((item, index) => (
-        <div key={index} className="summary-item">
-          <p>{item.label}:</p>
-          <span>{item.value}</span>
-        </div>
-      ))}
+      <h3>{text.title}</h3>
+      {loading && <p>{text.loading}</p>}
+      {error && <p className="error-message">{error}</p>}
+      {!loading && summaryData.length === 0 && <p>{text.noData}</p>}
+      {summaryData.length > 0 &&
+        summaryData.map((item, index) => (
+          <div key={index} className="summary-item">
+            <p>{language === "en" ? item.labelEn : item.labelVn}:</p>
+            <span>{item.value}</span>
+          </div>
+        ))}
     </div>
   );
-}
+};
 
 export default TransactionSummary;

@@ -1,41 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { getTransactionHistory } from "../../services/apiServices"; // Giả sử đây là API service của bạn
 import "./TransactionHistory.css";
 
 const TransactionHistory = ({ language }) => {
+  const translations = {
+    en: {
+      title: "Transaction History",
+      noData: "No transactions available.",
+      error: "Failed to load transaction history.",
+    },
+    vn: {
+      title: "Lịch Sử Giao Dịch",
+      noData: "Không có giao dịch nào.",
+      error: "Không thể tải lịch sử giao dịch.",
+    },
+  };
+
+  const text = translations[language] || translations.en;
+
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState("");
-  const [filters, setFilters] = useState({});
 
-  // Lấy danh sách giao dịch
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const data = await getTransactionHistory(filters);
+        const data = JSON.parse(localStorage.getItem("transactions")) || [];
         setTransactions(data);
       } catch (err) {
-        setError("Failed to load transaction history.");
+        setError(text.error);
       }
     };
 
     fetchTransactions();
-  }, [filters]);
+  }, [text.error]);
 
   return (
     <div className="transaction-history">
-      <h3>{language === "en" ? "Transaction History" : "Lịch Sử Giao Dịch"}</h3>
+      <h3>{text.title}</h3>
       {error && <p className="error-message">{error}</p>}
+      {!error && transactions.length === 0 && <p>{text.noData}</p>}
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Recipient</th>
+            <th>{language === "en" ? "Date" : "Ngày"}</th>
+            <th>{language === "en" ? "Type" : "Loại"}</th>
+            <th>{language === "en" ? "Amount" : "Số tiền"}</th>
+            <th>{language === "en" ? "Recipient" : "Người nhận"}</th>
           </tr>
         </thead>
         <tbody>
-          {transactions && transactions.length > 0 ? (
+          {transactions.length > 0 ? (
             transactions.map((transaction, index) => (
               <tr key={index}>
                 <td>{transaction.date}</td>
@@ -46,7 +59,7 @@ const TransactionHistory = ({ language }) => {
             ))
           ) : (
             <tr>
-              <td colSpan="4">No transactions available.</td>
+              <td colSpan="4">{text.noData}</td>
             </tr>
           )}
         </tbody>

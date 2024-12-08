@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
-// Import các component
 import Sidebar from "./Components/Sidebar/Sidebar";
-import Overview from "./Components/Overview/Overview";
+//import Overview from "./Components/Overview/Overview";
 import Cards from "./Components/Cards/Cards";
 import Payments from "./Components/Payments/Payments";
 import Setting from "./Components/Setting/Setting";
 import TransactionHistory from "./Components/TransactionHistory/TransactionHistory";
 import Auth from "./Components/Auth/Auth";
 import AdminDashboard from "./Components/Admin/AdminDashboard";
-import AccountCreationComponent from "./Components/AccountCreation/AccountCreation"; // Import component
+import AccountCreationComponent from "./Components/AccountCreation/AccountCreation";
+import UserDashboard from "./Components/Dashboard/UserDashboard";
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -51,9 +51,9 @@ function App() {
                       path="/"
                       element={
                         userRole === "admin" ? (
-                          <AdminDashboard />
+                          <AdminDashboard language={language} />
                         ) : (
-                          <Overview language={language} />
+                          <UserDashboard language={language} />
                         )
                       }
                     />
@@ -61,7 +61,7 @@ function App() {
                     <Route path="/payments" element={<Payments language={language} />} />
                     <Route path="/transactionhistory" element={<TransactionHistory language={language} />} />
                     <Route path="/setting" element={<Setting onLanguageChange={handleLanguageChange} />} />
-                    {userRole === "user" && <Route path="/create-account" element={<AccountCreationComponent userId="123" />} />}
+                    {userRole === "user" && <Route path="/create-account" element={<AccountCreationComponent />} />}
                   </Routes>
                 </DashboardLayout>
               ) : (
