@@ -39,11 +39,11 @@ const TransactionHistory = ({ language }) => {
       });
 
       if (page === 0) {
-        setTransactions(transactionData);
+        setTransactions(transactionData.data);
       } else {
         setTransactions((prevTransactions) => [
           ...prevTransactions,
-          ...transactionData,
+          ...transactionData.data,
         ]);
       }
     } catch (err) {
@@ -76,10 +76,10 @@ const TransactionHistory = ({ language }) => {
           {transactions.length > 0 ? (
             transactions.map((transaction, index) => (
               <tr key={index}>
-                <td>{transaction.date}</td>
+                <td>{new Date(transaction.createdDate).toUTCString()}</td>
                 <td>{transaction.type}</td>
                 <td>{transaction.amount}</td>
-                <td>{transaction.recipient}</td>
+                <td>{transaction.fromAccountId || transaction.toAccountId}</td>
               </tr>
             ))
           ) : (

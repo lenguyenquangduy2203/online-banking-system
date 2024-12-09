@@ -56,7 +56,7 @@ const UserDashboard = () => {
               {transactions && transactions.length > 0 ? (
                 transactions.map((transaction, index) => (
                   <li key={index}>
-                    {transaction.createdDate} - {transaction.type}: ${transaction.amount}
+                    {new Date(transaction.createdDate).toUTCString()} - {transaction.type}: ${transaction.amount}
                   </li>
                 ))
               ) : (

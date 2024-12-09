@@ -65,8 +65,6 @@ export const makePayment = async (paymentData) => {
 };
 
 export const getTransactionHistory = async (filters) => {
-  const response = await axiosInstance.get("/api/transactions/history", {
-    params: filters,
-  });
+  const response = await axiosInstance.get(`/api/users/${filters.userId}/transactions?page=${filters.page}`);
   return response.data;
 };
