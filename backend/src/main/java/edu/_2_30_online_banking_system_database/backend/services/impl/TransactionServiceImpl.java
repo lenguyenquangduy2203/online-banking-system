@@ -1,6 +1,5 @@
 package edu._2_30_online_banking_system_database.backend.services.impl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +71,9 @@ public class TransactionServiceImpl implements TransactionService {
             if (Boolean.FALSE.equals(pinService.comparePin(request.pin(), fromAccount.getPin()))) {
                 throw new AuthenticationFailedException("Invalid pin for account id: "+request.fromAccountId());
             }
+            if (fromAccount.getBalance() < request.amount()) {
+                throw new UnimplementedException("Exception for insufficient balance has not been implemented.");
+            }
             fromAccount.setBalance(fromAccount.getBalance() - request.amount());
             savedFromAccount = accountRepository.save(fromAccount);
             transaction = Transaction.builder()
@@ -88,6 +90,9 @@ public class TransactionServiceImpl implements TransactionService {
             }
             toAccount = accountRepository.findById(request.toAccountId())
                 .orElseThrow(() -> new UnimplementedException("Unimplemented."));
+            if (fromAccount.getBalance() < request.amount()) {
+                throw new UnimplementedException("Exception for insufficient balance has not been implemented.");
+            }
             fromAccount.setBalance(fromAccount.getBalance() - request.amount());
             toAccount.setBalance(toAccount.getBalance() + request.amount());
             savedFromAccount = accountRepository.save(fromAccount);
