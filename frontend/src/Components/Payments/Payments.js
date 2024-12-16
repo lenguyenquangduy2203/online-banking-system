@@ -2,7 +2,38 @@ import React, { useState } from "react";
 import { makePayment } from "../../services/apiServices";
 import "./Payments.css";
 
-const Payment = () => {
+const Payment = ({ language }) => {
+  const translations = {
+    en: {
+      title: "Payment",
+      fromAccount: "From Account ID",
+      toAccount: "To Account ID",
+      amount: "Amount",
+      pin: "PIN",
+      deposit: "Deposit",
+      withdrawal: "Withdrawal",
+      transfer: "Transfer",
+      submit: "Submit",
+      processing: "Processing...",
+      error: "Failed to make the payment. Please try again.",
+    },
+    vn: {
+      title: "Thanh Toán",
+      fromAccount: "ID Tài Khoản Gửi",
+      toAccount: "ID Tài Khoản Nhận",
+      amount: "Số Tiền",
+      pin: "Mã PIN",
+      deposit: "Nạp Tiền",
+      withdrawal: "Rút Tiền",
+      transfer: "Chuyển Tiền",
+      submit: "Gửi",
+      processing: "Đang Xử Lý...",
+      error: "Không thể thực hiện thanh toán. Vui lòng thử lại.",
+    },
+  };
+
+  const text = translations[language] || translations.en;
+
   const [fromAccountId, setFromAccountId] = useState("");
   const [toAccountId, setToAccountId] = useState("");
   const [amount, setAmount] = useState("");
@@ -10,7 +41,9 @@ const Payment = () => {
   const [type, setType] = useState("deposit");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [accounts, setAccounts] = useState(JSON.parse(localStorage.getItem("accounts")) || []);
+  const [accounts, setAccounts] = useState(
+    JSON.parse(localStorage.getItem("accounts")) || []
+  );
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -43,18 +76,26 @@ const Payment = () => {
 
       let updatedAccounts = [...accounts];
       if (type === "deposit" && toAccount) {
-        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(toAccount));
+        const toAccountIndex = updatedAccounts.findIndex(
+          (acc) => acc.id === parseInt(toAccount)
+        );
         if (toAccountIndex !== -1) {
           updatedAccounts[toAccountIndex].balance += parseFloat(amount);
         }
       } else if (type === "withdrawal" && fromAccount) {
-        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(fromAccount));
+        const fromAccountIndex = updatedAccounts.findIndex(
+          (acc) => acc.id === parseInt(fromAccount)
+        );
         if (fromAccountIndex !== -1) {
           updatedAccounts[fromAccountIndex].balance -= parseFloat(amount);
         }
       } else if (type === "transfer" && fromAccount && toAccount) {
-        const fromAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(fromAccount));
-        const toAccountIndex = updatedAccounts.findIndex((acc) => acc.id === parseInt(toAccount));
+        const fromAccountIndex = updatedAccounts.findIndex(
+          (acc) => acc.id === parseInt(fromAccount)
+        );
+        const toAccountIndex = updatedAccounts.findIndex(
+          (acc) => acc.id === parseInt(toAccount)
+        );
         if (fromAccountIndex !== -1 && toAccountIndex !== -1) {
           updatedAccounts[fromAccountIndex].balance -= parseFloat(amount);
           updatedAccounts[toAccountIndex].balance += parseFloat(amount);
@@ -63,9 +104,8 @@ const Payment = () => {
 
       localStorage.setItem("accounts", JSON.stringify(updatedAccounts));
       setAccounts(updatedAccounts);
-
     } catch (err) {
-      setError("Failed to make the payment. Please try again.");
+      setError(text.error);
       console.error("Payment failed:", err);
     } finally {
       setIsLoading(false);
@@ -73,43 +113,70 @@ const Payment = () => {
   };
 
   return (
-    <div className="payment">
-      <h3>Payment</h3>
-      <form onSubmit={handlePayment}>
-        <input
-          type="text"
-          placeholder="From Account ID"
-          value={fromAccountId}
-          onChange={(e) => setFromAccountId(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="To Account ID"
-          value={toAccountId}
-          onChange={(e) => setToAccountId(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="PIN"
-          value={pin}
-          onChange={(e) => setPin(e.target.value)}
-        />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="deposit">Deposit</option>
-          <option value="withdrawal">Withdrawal</option>
-          <option value="transfer">Transfer</option>
-        </select>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Processing..." : "Submit"}
-        </button>
-      </form>
-      {error && <p className="error">{error}</p>}
+    <div className="main-content">
+      <div className="payment">
+        <h3>{text.title}</h3>
+
+        {/* Tabs for Transaction Types */}
+        <div className="tabs">
+          <button
+            className={type === "deposit" ? "active" : ""}
+            onClick={() => setType("deposit")}
+          >
+            {text.deposit}
+          </button>
+          <button
+            className={type === "withdrawal" ? "active" : ""}
+            onClick={() => setType("withdrawal")}
+          >
+            {text.withdrawal}
+          </button>
+          <button
+            className={type === "transfer" ? "active" : ""}
+            onClick={() => setType("transfer")}
+          >
+            {text.transfer}
+          </button>
+        </div>
+
+        {/* Form for Payment */}
+        <form onSubmit={handlePayment}>
+          {type !== "deposit" && (
+            <input
+              type="text"
+              placeholder={text.fromAccount}
+              value={fromAccountId}
+              onChange={(e) => setFromAccountId(e.target.value)}
+            />
+          )}
+          {type !== "withdrawal" && (
+            <input
+              type="text"
+              placeholder={text.toAccount}
+              value={toAccountId}
+              onChange={(e) => setToAccountId(e.target.value)}
+            />
+          )}
+          <input
+            type="number"
+            placeholder={text.amount}
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder={text.pin}
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+          />
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? text.processing : text.submit}
+          </button>
+        </form>
+
+        {/* Error message */}
+        {error && <p className="error">{error}</p>}
+      </div>
     </div>
   );
 };

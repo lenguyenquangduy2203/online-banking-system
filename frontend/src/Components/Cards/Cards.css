@@ -1,63 +1,89 @@
+/* Cards Container */
 .cards {
-  padding: 20px;
-  background-color: #f4f6f8;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.cards h3 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
-
-.card-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.card {
-  flex: 1 1 calc(30% - 10px);
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 100px;
   background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card p {
-  margin: 5px 0;
-  font-size: 16px;
-  color: #555;
-}
-
-.cards {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card {
-  margin-bottom: 15px;
-  padding: 15px;
-  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  transition: border-color 0.3s ease, transform 0.2s ease;
+  margin: 20px 0;
+  width: 100% ;
+}
+
+/* Tiêu đề Cards */
+.cards h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Card List */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  justify-items: center; /* Căn giữa các item */
+}
+
+/* Card Item Styles */
+.card {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card:hover {
-  border-color: #635dff;
-  transform: translateY(-3px);
+  transform: translateY(-5px); /* Lên nhẹ khi hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Tăng bóng mờ khi hover */
 }
 
 .card p {
-  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.card p:last-child {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Balance label */
+.card .balance {
+  font-size: 16px;
+  font-weight: bold;
+  color: #27ae60; /* Màu xanh lá cho số dư */
+}
+
+/* Thông báo khi không có thẻ */
+.no-cards-message {
+  font-size: 18px;
+  color: #e74c3c;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cards {
+    padding: 15px;
+  }
+
+  .cards h3 {
+    font-size: 20px;
+  }
+
+  .card-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .card {
+    padding: 10px;
+  }
 }

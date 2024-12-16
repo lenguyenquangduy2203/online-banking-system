@@ -1,61 +1,67 @@
+/* Setting Container */
 .setting-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
+    padding: 50px;
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.setting-container h2 {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 20px 0;
+    font-family: Roboto, sans-serif;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto; /* Căn giữa container */
+  }
+  
+  /* Heading */
+  .setting-container h2 {
     text-align: center;
-    font-size: 24px;
+    font-size: 24px; /* Đặt lại kích thước cho tiêu đề giống như các phần khác */
     margin-bottom: 20px;
-    color: #4c4cd9;
-}
-
-.language-setting {
+    color: #4c4cd9; /* Màu xanh tím cho tiêu đề */
+  }
+  
+  /* Language Setting */
+  .language-setting {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 20px 0;
-}
-
-.language-setting label {
-    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* Label */
+  .language-setting label {
+    font-size: 14px;
     margin-bottom: 8px;
     color: #333;
-}
-
-.language-setting select {
-    padding: 8px;
+  }
+  
+  /* Language select */
+  .language-setting select {
+    padding: 12px;
     font-size: 16px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc; /* Thay đổi màu biên giống các form khác */
     border-radius: 5px;
-    width: 200px;
+    width: 250px;
     background-color: #f9f9f9;
     transition: all 0.3s ease;
-}
-
-.language-setting select:focus {
-    border-color: #4c4cd9;
+    text-align: center;
+  }
+  
+  /* Focus State for Select */
+  .language-setting select:focus {
+    border-color: #635dff;
     outline: none;
     background-color: #f1f1f1;
-}
-
-.language-setting select option {
-    padding: 10px;
-}
-
+  }
+  
   /* Responsive adjustments */
-@media (max-width: 600px) {
+  @media (max-width: 600px) {
     .setting-container {
-    width: 90%;
-    padding: 15px;
+      width: 90%;
+      padding: 15px;
     }
-
+  
     .language-setting select {
-    width: 100%;
+      width: 100%;
     }
-}
+  }
+  

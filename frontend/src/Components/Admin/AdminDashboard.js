@@ -9,7 +9,7 @@ const AdminDashboard = ({ language }) => {
       error: "Failed to load admin data.",
     },
     vn: {
-      title: "Bảng Điều Khiển Quản Trị",
+      title: "Admin Dashboard",
       noData: "Không có dữ liệu quản trị.",
       error: "Không thể tải dữ liệu quản trị.",
     },

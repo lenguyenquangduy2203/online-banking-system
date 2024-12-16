@@ -7,10 +7,12 @@ const Cards = ({ language }) => {
     en: {
       title: "Bank Cards",
       balance: "Balance",
+      noCards: "No cards available", // Thông báo không có thẻ
     },
     vn: {
       title: "Thẻ Ngân Hàng",
       balance: "Số Dư",
+      noCards: "Không có thẻ nào", // Thông báo không có thẻ
     },
   };
 
@@ -41,16 +43,20 @@ const Cards = ({ language }) => {
     <div className="cards">
       <h3>{text.title}</h3>
       <div className="card-list">
-        {cardData.map((card, index) => (
-          <div className="card" key={index}>
-            <p>
-              {text.balance}: {card.balance}
-            </p>
-            <p>
-              {card.type} - {card.id}
-            </p>
-          </div>
-        ))}
+        {cardData.length === 0 ? (
+          <p>{text.noCards}</p> // Hiển thị thông báo nếu không có thẻ
+        ) : (
+          cardData.map((card, index) => (
+            <div className="card" key={index}>
+              <p>
+                {text.balance}: {card.balance}
+              </p>
+              <p>
+                {card.type} - ID: {card.id}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

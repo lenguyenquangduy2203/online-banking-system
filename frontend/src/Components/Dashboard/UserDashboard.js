@@ -1,8 +1,32 @@
-// src/components/Dashboard/UserDashboard.js
 import React, { useState, useEffect } from 'react';
 import './UserDashboard.css';
 
-const UserDashboard = () => {
+const UserDashboard = ({ language }) => {
+  const translations = {
+    en: {
+      title: "User Dashboard",
+      welcome: "Welcome",
+      yourCards: "Your Cards",
+      noCards: "No cards available.",
+      transactionHistory: "Recent Transactions",
+      noTransactions: "No transactions found.",
+      noData: "No data available",
+      loading: "Loading...",
+    },
+    vn: {
+      title: "User Dashboard",
+      welcome: "Chào mừng",
+      yourCards: "Thẻ Ngân Hàng Của Bạn",
+      noCards: "Không có thẻ nào.",
+      transactionHistory: "Giao Dịch Gần Đây",
+      noTransactions: "Không tìm thấy giao dịch.",
+      noData: "Không có dữ liệu",
+      loading: "Đang tải...",
+    }
+  };
+
+  const text = translations[language] || translations.en;
+
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +43,7 @@ const UserDashboard = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>{text.loading}</p>;
   }
 
   if (error) {
@@ -28,30 +52,30 @@ const UserDashboard = () => {
 
   return (
     <div className="user-dashboard">
-      <h2>User Dashboard</h2>
+      <h2>{text.title}</h2>
       {userData ? (
         <>
           <div className="user-info">
-            <p>Welcome, {userData.name}</p>
+            <p>{text.welcome}, {userData.name}</p>
           </div>
 
           <div className="cards-section">
-            <h3>Your Cards</h3>
+            <h3>{text.yourCards}</h3>
             <ul>
               {accounts && accounts.length > 0 ? (
                 accounts.map((card, index) => (
                   <li key={index}>
-                    Card Type: {card.type} - Card Number: {card.id}
+                    {`Card Type: ${card.type} - Card Number: ${card.id}`}
                   </li>
                 ))
               ) : (
-                <p>No cards available.</p>
+                <p>{text.noCards}</p>
               )}
             </ul>
           </div>
 
           <div className="transactions-section">
-            <h3>Transaction History</h3>
+            <h3>{text.transactionHistory}</h3>
             <ul>
               {transactions && transactions.length > 0 ? (
                 transactions.map((transaction, index) => (
@@ -60,13 +84,13 @@ const UserDashboard = () => {
                   </li>
                 ))
               ) : (
-                <p>No transactions found.</p>
+                <p>{text.noTransactions}</p>
               )}
             </ul>
           </div>
         </>
       ) : (
-        <p>No data available</p>
+        <p>{text.noData}</p>
       )}
     </div>
   );

@@ -39,12 +39,12 @@ const TransactionHistory = ({ language }) => {
       });
 
       if (page === 0) {
-        setTransactions(transactionData.data);
+        setTransactions(transactionData.data); // Nếu là trang đầu, ghi đè danh sách giao dịch
       } else {
         setTransactions((prevTransactions) => [
           ...prevTransactions,
           ...transactionData.data,
-        ]);
+        ]); // Nếu không phải trang đầu, ghép thêm giao dịch mới vào danh sách cũ
       }
     } catch (err) {
       setError(text.error);
@@ -90,7 +90,8 @@ const TransactionHistory = ({ language }) => {
         </tbody>
       </table>
 
-      {transactions.length > 0 && transactions.length % 10 === 0 && !isLoading && (
+      {/* Nút Next Page */}
+      {transactions.length > 0 && transactions.length >= (currentPage + 1) * 10 && !isLoading && (
         <button
           onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
           disabled={isLoading}
@@ -98,6 +99,7 @@ const TransactionHistory = ({ language }) => {
           {text.pagination.nextPage}
         </button>
       )}
+
       {isLoading && <p>Loading...</p>}
     </div>
   );

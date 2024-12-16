@@ -20,7 +20,7 @@ function Sidebar({ language, userRole }) {
       vn: {
         overview: "Tổng quan",
         cards: "Thẻ",
-        payments: "Thanh toán",
+        payments: "Giao Dịch",
         transactionHistory: "Lịch sử giao dịch",
         setting: "Cài đặt",
         adminDashboard: "Bảng điều khiển Admin",
@@ -33,7 +33,6 @@ function Sidebar({ language, userRole }) {
 
   const handleLogout = () => {
     localStorage.clear();
-
     navigate("/auth");
   };
 
@@ -49,7 +48,7 @@ function Sidebar({ language, userRole }) {
         ) : (
           <>
             <li>
-              <NavLink to="/">{getText("userDashboard")}</NavLink>
+              <NavLink to="/">{getText("overview")}</NavLink>
             </li>
             <li>
               <NavLink to="/cards">{getText("cards")}</NavLink>

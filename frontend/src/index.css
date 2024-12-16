@@ -1,111 +1,64 @@
-body {
+/* index.css */
+
+/* Thiết lập các kiểu dáng cơ bản cho toàn bộ ứng dụng */
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  background: linear-gradient(135deg, #635dff, #4c4cd9);
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4; /* Màu nền mặc định cho toàn bộ ứng dụng */
+  color: #333;
+  line-height: 1.6;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Căn trên của phần nội dung */
   height: 100vh;
+  background: linear-gradient(135deg, #635dff, #4c4cd9);
+  margin: 0; /* Loại bỏ margin mặc định của body */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.auth-container {
-  display: flex;
-  width: 90%;
-  max-width: 1000px;
-  height: 600px;
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.6s ease-in-out;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.welcome-section {
-  flex: 1.5;
-  background: linear-gradient(120deg, #635dff, #4c4cd9);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  padding: 50px;
-  text-align: center;
-  transition: transform 0.6s ease-in-out;
-}
-
-.form-section {
-  flex: 1.2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  transition: transform 0.6s ease-in-out;
+a {
+  text-decoration: none;
+  color: inherit; /* Đảm bảo các liên kết không bị gạch dưới mặc định */
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(120deg, #4c4cd9, #635dff);
-  color: white;
+  background-color: #4caf50; /* Màu nền mặc định cho nút */
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background: linear-gradient(120deg, #635dff, #4c4cd9);
+  background-color: #45a049;
 }
 
-.redirect-link {
-  color: #4c4cd9;
-  cursor: pointer;
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
 }
 
-.redirect-link:hover {
-  text-decoration: underline;
-}
+/* Đặt các kiểu dáng cho các phần tử của app, có thể sẽ thay đổi trong các file CSS của component riêng biệt */
 
-.input-group {
+/* Điều chỉnh cho phần main-content để nó nằm sát sidebar */
+.main-content {
   display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: flex-start; /* Đảm bảo căn trên của phần nội dung */
+  height: 100vh;
+  margin-left: 250px; /* Đảm bảo rằng content bắt đầu ngay sau sidebar */
+  background-color: #f4f4f4;
+  padding: 0; /* Đảm bảo không có khoảng padding nào */
+  width: calc(100% - 250px); /* Đảm bảo phần nội dung chiếm 100% còn lại của màn hình */
 }
 
-input {
-  width: 100%;
-  border: none;
-  outline: none;
-  padding: 10px;
-}
-
-/* Đảo vị trí giữa đăng ký và đăng nhập khi người dùng nhấn */
-.auth-container.register .welcome-section {
-  order: 2;
-}
-
-.auth-container.register .form-section {
-  order: 1;
-}
-
-/* Nền di chuyển */
-@keyframes moveBackground {
-  0% { background-position: 0 0; }
-  100% { background-position: 100% 100%; }
-}
-
-body {
-  animation: moveBackground 5s linear infinite;
+/* Đối với responsive layout, khi màn hình nhỏ hơn 768px */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0; /* Hủy bỏ margin trái khi màn hình nhỏ */
+    width: 100%; /* Nội dung chiếm toàn bộ chiều rộng */
+  }
 }

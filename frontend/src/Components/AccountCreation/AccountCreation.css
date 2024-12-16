@@ -1,75 +1,103 @@
-/* Container for the form */
-.account-creation-container {
-    width: 100%;
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Header */
-.account-creation-container h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Form elements */
-.account-creation-container form {
+/* Main content container */
+.main-content {
     display: flex;
-    flex-direction: column;
-}
-
-.account-creation-container label {
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100vh; /* Chiều cao toàn màn hình */
+    margin-left: 250px; /* Offset cho sidebar */
+    background-color: #f4f4f4;
+  }
+  
+  /* Đặt chung cho form */
+  .account-creation {
+    padding: 100px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 20px 0;
+    width: 100%;
+  }
+  
+  /* Tiêu đề */
+  .account-creation h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  /* Định dạng cho các trường input, select và button */
+  .account-creation .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .account-creation label {
+    display: block;
+    margin-bottom: 8px;
     font-size: 14px;
-    margin-bottom: 6px;
-    color: #555;
-}
-
-.account-creation-container select,
-.account-creation-container input {
-    padding: 10px;
-    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .account-creation input,
+  .account-creation select {
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.account-creation-container input[type="password"] {
-    width: 100%;
-}
-
-.account-creation-container select {
-    width: 100%;
-}
-
-/* Button style */
-.account-creation-container button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    border-radius: 5px;
     font-size: 16px;
-}
-
-.account-creation-container button:hover {
-    background-color: #45a049;
-}
-
-/* Error and Success messages */
-.account-creation-container .error {
-    color: #d9534f;
+    transition: border-color 0.3s ease;
+  }
+  
+  .account-creation input:focus,
+  .account-creation select:focus {
+    outline: none;
+    border-color: #635dff;
+  }
+  
+  /* Button */
+  .account-creation .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #635dff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .account-creation .submit-button:hover {
+    background-color: #503de0;
+  }
+  
+  /* Thông báo lỗi và thành công */
+  .account-creation .error-message,
+  .account-creation .success-message {
+    padding: 10px;
+    border-radius: 5px;
     font-size: 14px;
-    margin-top: -10px;
-}
-
-.account-creation-container .success {
-    color: #5bc0de;
-    font-size: 14px;
-    margin-top: -10px;
-}
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .account-creation .error-message {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .account-creation .success-message {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  /* Định dạng cho input type password */
+  .account-creation input[type="password"] {
+    -webkit-text-security: disc;
+  }
+  
+  /* Thêm một chút khoảng cách cho form */
+  .account-creation .form-group:last-child {
+    margin-bottom: 30px;
+  }
+  

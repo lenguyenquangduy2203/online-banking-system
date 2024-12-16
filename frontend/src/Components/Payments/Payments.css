@@ -1,75 +1,177 @@
+/* Container chính để giữ form căn giữa */
+
+/* Form thanh toán */
+.payment {
+  padding: 20px; /* Giảm padding để tránh chiếm quá nhiều không gian */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 20px; /* Khoảng cách đều 4 phía */
+  width: calc(100% - 250px); /* Đảm bảo phù hợp với không gian còn lại sau Sidebar */
+  max-width: 1000px; /* Kích thước tối đa khi không cần full width */
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden; /* Đảm bảo nội dung không tràn */
+}
+
+/* Tiêu đề form */
+.payment h3 {
+  text-align: center;
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Tabs cho lựa chọn loại giao dịch */
 .payments .tabs {
   display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-  padding: 10px 0;
-  justify-content: center;
-  border-bottom: 2px solid #f1f1f1;
+  gap: 15px; /* Khoảng cách giữa các tab */
+  margin-bottom: 20px;
+  justify-content: center; /* Căn giữa các tab */
 }
 
 .payments .tabs button {
-  padding: 12px 25px;
-  background-color: #f7f7f7;
-  border: 2px solid transparent;
-  border-radius: 30px;
+  padding: 12px 24px;
+  background-color: #efefef;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: bold;
   transition: all 0.3s ease;
+  color: #333;
 }
 
-.payments .tabs button:hover {
-  background-color: #e0e0e0;
-  transform: scale(1.05);
-}
-
+/* Khi tab được active */
 .payments .tabs button.active {
   background-color: #6c63ff;
   color: #fff;
-  border: 2px solid #6c63ff;
+  transform: scale(1.1); /* Hiệu ứng phóng to khi active */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho tab khi active */
 }
 
-.tab-content {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* Hiệu ứng hover cho các tab */
+.payments .tabs button:hover:not(.active) {
+  background-color: #ddd;
+  transform: scale(1.05); /* Hiệu ứng phóng nhẹ khi hover */
 }
 
-.payment form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
+/* Form input và select */
 .payment input,
 .payment select,
 .payment button {
-  padding: 12px;
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 5px;
   font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Focus hiệu ứng cho input và select */
+.payment input:focus,
+.payment select:focus {
+  border-color: #635dff;
+  box-shadow: 0 0 6px rgba(99, 93, 255, 0.5);
+  outline: none;
+}
+
+/* Nút submit */
+.payment button {
+  background-color: #635dff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  border: none;
+}
+
+.payment button:disabled {
+  background-color: #d1d1d1;
+  cursor: not-allowed;
+}
+
+/* Hover và active cho button */
+.payment button:hover:not(:disabled) {
+  background-color: #503de0;
+  transform: translateY(-2px); /* Nổi lên khi hover */
+}
+
+/* Thông báo lỗi */
+.payment .error {
+  color: red;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Các input kiểu number (ẩn nút tăng giảm số) */
 .payment input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
-.payment button {
-  background-color: #6c63ff;
-  color: white;
-  border: none;
+.payment input[type="number"]::-webkit-outer-spin-button,
+.payment input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Chọn loại giao dịch (deposit, withdrawal, transfer) */
+.payment select {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.payment button:hover {
-  background-color: #5a53d4;
+.payment select:focus {
+  border-color: #635dff;
+  box-shadow: 0 0 6px rgba(99, 93, 255, 0.5);
+  outline: none;
 }
 
-.error {
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+  .payment {
+    padding: 20px;
+    width: 100%; /* Tự động điều chỉnh kích thước cho màn hình nhỏ */
+    max-width: 90%;
+  }
+
+  .payment h3 {
+    font-size: 22px;
+  }
+
+  .payment input,
+  .payment select,
+  .payment button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Cải tiến phần nội dung tab */
+.tab-content {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hiệu ứng khi nội dung tab thay đổi */
+.tab-content:not(.active) {
+  display: none; /* Ẩn tab không active */
+}
+
+/* Nếu có lỗi, có thể thêm thông báo lỗi */
+.tab-content .error {
   color: red;
-  font-size: 14px;
+  text-align: center;
+  font-size: 16px;
   margin-top: 10px;
 }

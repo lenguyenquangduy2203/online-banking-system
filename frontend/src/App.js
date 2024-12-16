@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+import "./index.css";
 
 import Sidebar from "./Components/Sidebar/Sidebar";
-//import Overview from "./Components/Overview/Overview";
 import Cards from "./Components/Cards/Cards";
 import Payments from "./Components/Payments/Payments";
 import Setting from "./Components/Setting/Setting";
@@ -61,7 +61,7 @@ function App() {
                     <Route path="/payments" element={<Payments language={language} />} />
                     <Route path="/transactionhistory" element={<TransactionHistory language={language} />} />
                     <Route path="/setting" element={<Setting onLanguageChange={handleLanguageChange} />} />
-                    {userRole === "user" && <Route path="/create-account" element={<AccountCreationComponent />} />}
+                    {userRole === "user" && <Route path="/create-account" element={<AccountCreationComponent language={language} />} />}
                   </Routes>
                 </DashboardLayout>
               ) : (
@@ -79,7 +79,7 @@ function DashboardLayout({ children, language, userRole }) {
   return (
     <div className="dashboard">
       <Sidebar language={language} userRole={userRole} />
-      <div className="content">{children}</div>
+      <div className="main-content">{children}</div>
     </div>
   );
 }
