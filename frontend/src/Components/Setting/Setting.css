@@ -1,22 +1,23 @@
 /* Setting Container */
 .setting-container {
-    padding: 50px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin: 20px 0;
-    font-family: Roboto, sans-serif;
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto; /* Căn giữa container */
+  padding: 40px; /* Giảm padding để tránh chiếm quá nhiều không gian */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 100px; /* Khoảng cách đều 4 phía */
+  width: 100%; /* Đảm bảo phù hợp với không gian còn lại sau Sidebar */
+  max-width: 1000px; /* Kích thước tối đa khi không cần full width */
+  transition: transform 0.3s ease-in-out;
+  min-height: calc(100vh - 10px); 
   }
   
   /* Heading */
   .setting-container h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #4c4cd9;
     text-align: center;
-    font-size: 24px; /* Đặt lại kích thước cho tiêu đề giống như các phần khác */
     margin-bottom: 20px;
-    color: #4c4cd9; /* Màu xanh tím cho tiêu đề */
   }
   
   /* Language Setting */

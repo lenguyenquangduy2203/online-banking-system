@@ -1,15 +1,21 @@
 /* Admin Dashboard styles */
 .admin-dashboard {
-  background-color: #f4f4f4;
-  padding: 20px;
-  margin-left: 250px; /* Sidebar width */
-  height: 100vh;
-  box-sizing: border-box;
+  padding: 40px; /* Giảm padding để tránh chiếm quá nhiều không gian */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 100px; /* Khoảng cách đều 4 phía */
+  width: 100%; /* Đảm bảo phù hợp với không gian còn lại sau Sidebar */
+  max-width: 1000px; /* Kích thước tối đa khi không cần full width */
+  transition: transform 0.3s ease-in-out;
+  min-height: calc(100vh - 10px); 
 }
 
 .admin-dashboard h3 {
-  font-size: 24px;
-  color: #333;
+  font-size: 30px;
+  font-weight: bold;
+  color: #4c4cd9;
+  text-align: center;
   margin-bottom: 20px;
 }
 

@@ -1,64 +1,101 @@
-/* index.css */
-
-/* Thiết lập các kiểu dáng cơ bản cho toàn bộ ứng dụng */
+/* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
+html, body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f4f4f4; /* Màu nền mặc định cho toàn bộ ứng dụng */
   color: #333;
   line-height: 1.6;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Căn trên của phần nội dung */
   height: 100vh;
-  background: linear-gradient(135deg, #635dff, #4c4cd9);
-  margin: 0; /* Loại bỏ margin mặc định của body */
+  margin: 0;
+  background-color: #f4f4f4; /* Neutral background for the full page */
+  overflow-x: hidden;
 }
 
-a {
+/* Layout Container */
+body {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #635dff;
+  color: #fff;
+  height: 100vh;
+  padding: 20px 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto; /* Add scroll for long sidebar content */
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 20px 0;
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+}
+
+.sidebar a {
+  display: block;
+  font-size: 1rem;
+  padding: 10px 15px;
+  color: #fff;
   text-decoration: none;
-  color: inherit; /* Đảm bảo các liên kết không bị gạch dưới mặc định */
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button {
-  background-color: #4caf50; /* Màu nền mặc định cho nút */
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.sidebar a:hover,
+.sidebar a.active {
+  background-color: #4c4cd9;
+  transform: translateX(5px); /* Subtle hover movement */
 }
 
-button:hover {
-  background-color: #45a049;
-}
-
-input, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-}
-
-/* Đặt các kiểu dáng cho các phần tử của app, có thể sẽ thay đổi trong các file CSS của component riêng biệt */
-
-/* Điều chỉnh cho phần main-content để nó nằm sát sidebar */
+/* Main Content */
+/* Main Content chỉnh giữa */
 .main-content {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start; /* Đảm bảo căn trên của phần nội dung */
-  height: 100vh;
-  margin-left: 250px; /* Đảm bảo rằng content bắt đầu ngay sau sidebar */
-  background-color: #f4f4f4;
-  padding: 0; /* Đảm bảo không có khoảng padding nào */
-  width: calc(100% - 250px); /* Đảm bảo phần nội dung chiếm 100% còn lại của màn hình */
+  flex: 1; /* Fills remaining space */
+  display: flex; /* Bố cục linh hoạt */
+  flex-direction: column;
+  justify-content: center; /* Căn giữa theo chiều dọc */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  padding: 550px;
+  margin-left: 250px; /* Tránh bị che bởi sidebar */
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-height: 50vh; /* Chiều cao tối thiểu */
+  border-radius: 10px;
 }
 
-/* Đối với responsive layout, khi màn hình nhỏ hơn 768px */
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+
   .main-content {
-    margin-left: 0; /* Hủy bỏ margin trái khi màn hình nhỏ */
-    width: 100%; /* Nội dung chiếm toàn bộ chiều rộng */
+    margin-left: 200px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+
+  .main-content {
+    margin-left: 0;
   }
 }

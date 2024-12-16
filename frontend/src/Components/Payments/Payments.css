@@ -2,22 +2,23 @@
 
 /* Form thanh toán */
 .payment {
-  padding: 20px; /* Giảm padding để tránh chiếm quá nhiều không gian */
+  padding: 40px; /* Giảm padding để tránh chiếm quá nhiều không gian */
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  margin: 20px; /* Khoảng cách đều 4 phía */
-  width: calc(100% - 250px); /* Đảm bảo phù hợp với không gian còn lại sau Sidebar */
+  margin: 100px; /* Khoảng cách đều 4 phía */
+  width: 100%; /* Đảm bảo phù hợp với không gian còn lại sau Sidebar */
   max-width: 1000px; /* Kích thước tối đa khi không cần full width */
   transition: transform 0.3s ease-in-out;
-  overflow: hidden; /* Đảm bảo nội dung không tràn */
+  min-height: calc(100vh - 10px); 
+  padding-right: 300px;
 }
 
 /* Tiêu đề form */
 .payment h3 {
   text-align: center;
-  color: #333;
-  font-size: 28px;
+  color: #4c4cd9;
+  font-size: 30px;
   margin-bottom: 20px;
   font-weight: bold;
 }

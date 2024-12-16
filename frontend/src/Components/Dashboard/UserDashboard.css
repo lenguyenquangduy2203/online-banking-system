@@ -1,120 +1,99 @@
-/* src/components/Dashboard/UserDashboard.css */
-
-/* Container của User Dashboard */
+/* User Dashboard Container */
 .user-dashboard {
+  padding: 40px; /* Giảm padding để tránh chiếm quá nhiều không gian */
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 100px; /* Khoảng cách đều 4 phía */
+  width: 100%; /* Đảm bảo phù hợp với không gian còn lại sau Sidebar */
+  max-width: 1000px; /* Kích thước tối đa khi không cần full width */
+  transition: transform 0.3s ease-in-out;
+  min-height: calc(100vh - 10px); 
 }
 
-/* Tiêu đề chính */
-.user-dashboard h2 {
-  font-size: 2rem;
+/* Titles */
+.user-dashboard h2,
+.cards-section h3,
+.transactions-section h3 {
+  font-size: 30px;
   font-weight: bold;
   color: #4c4cd9;
-  margin-bottom: 20px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Hiển thị thông tin người dùng */
+/* User Info Section */
 .user-info {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
+  text-align: center;
+  padding: 15px;
+  background-color: #fafafa;
+  border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  max-width: 400px; /* Tối đa chiều rộng cho User Info */
 }
 
 .user-info p {
   font-size: 1.2rem;
   margin: 10px 0;
-  text-align: center;
+  color: #333;
 }
 
-/* Thẻ của người dùng */
-.cards-section {
-  margin-top: 30px;
-}
-
-.cards-section h3 {
-  font-size: 1.6rem;
-  margin-bottom: 15px;
-  color: #4c4cd9;
-  text-align: center;
-}
-
-.cards-section ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.cards-section li {
-  background-color: #fff;
-  padding: 12px 20px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.3s ease;
-}
-
-.cards-section li:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.cards-section li span {
-  font-weight: bold;
-}
-
-/* Lịch sử giao dịch */
+/* Cards and Transactions Sections */
+.cards-section,
 .transactions-section {
   margin-top: 30px;
+  width: 100%;
 }
 
-.transactions-section h3 {
-  font-size: 1.6rem;
-  margin-bottom: 15px;
-  color: #4c4cd9;
-  text-align: center;
-}
-
+.cards-section ul,
 .transactions-section ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
+.cards-section li,
 .transactions-section li {
   background-color: #fff;
-  padding: 12px 20px;
-  margin-bottom: 10px;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 12px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+.cards-section li:hover,
 .transactions-section li:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.transactions-section li span {
+.cards-section span,
+.transactions-section span {
   font-weight: bold;
+  color: #4c4cd9;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .cards-section h3, .transactions-section h3 {
-    font-size: 1.4rem;
+  .user-dashboard {
+    padding: 20px;
   }
 
-  .cards-section li, .transactions-section li {
+  .user-dashboard h2 {
+    font-size: 1.6rem;
+  }
+
+  .cards-section li,
+  .transactions-section li {
     font-size: 0.9rem;
-    padding: 10px 15px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-info p {
+    font-size: 1rem;
   }
 }
